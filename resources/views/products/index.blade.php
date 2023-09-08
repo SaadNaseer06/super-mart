@@ -12,6 +12,9 @@
         <li class="nav-item">
             <a class="nav-link text-light" href="/products/create">Products</a>
         </li>
+        <li class="nav-item nav-link text-light">
+            Welcome,{{ Auth::user()->name }}
+        </li>
     </ul>
 </nav>
 @if($message=Session::get('success'))
