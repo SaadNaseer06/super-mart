@@ -12,15 +12,29 @@
         <li class="nav-item">
             <a class="nav-link text-light" href="/products/create">Products</a>
         </li>
-        <li class="nav-item nav-link text-light">
-            Welcome,{{ Auth::user()->name }}
-        </li>
     </ul>
+    <div class="text-right">
+        <ul class="navbar-nav">
+            <li class="nav-item nav-link text-light">
+                Welcome,{{ Auth::user()->type }}
+            </li>
+        </ul>
+    </div>
+    <div class="text-right">
+        <ul class="navbar-nav">
+            <li class="nav-item nav-link text-light ">
+                <form method="POST" action="{{ route('logout')}}">
+                    @csrf
+                    <button type="submit" class="nav-item nav-link text-dark bg-secondary">Logout </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </nav>
-@if($message=Session::get('success'))
-<div class='alert alert-success alert-block'>
-    <strong>{{ $message }}</strong>
-</div>
+@if ($message = Session::get('success'))
+    <div class='alert alert-success alert-block'>
+        <strong>{{ $message }}</strong>
+    </div>
 @endif
 <div class="container">
     <h1>Products</h1>
@@ -39,16 +53,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($products as $product)
-            <tr>
-                <td>{{ $loop->index+1 }}</td>
-                <td><a href="/products/{{ $product->id }}/edit">{{ $product->name }}</a></td>
-                <td>
-                    <img src="/products/{{ $product->image }}" class="rounded-circle" width="50" height="50">
-                </td>
-                <td>
-                    <a href="products/{{ $product->id }}/edit" class="btn btn-dark btn-sm">Edit</a>
-                    <a href="products/{{ $product->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $loop->index + 1 }}</td>
+                    <td><a href="/products/{{ $product->id }}/edit">{{ $product->name }}</a></td>
+                    <td>
+                        <img src="/products/{{ $product->image }}" class="rounded-circle" width="50" height="50">
+                    </td>
+                    <td>
+                        <a href="products/{{ $product->id }}/edit" class="btn btn-dark btn-sm">Edit</a>
+                        <a href="products/{{ $product->id }}/delete" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
             @endforeach

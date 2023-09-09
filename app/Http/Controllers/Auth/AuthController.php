@@ -20,6 +20,7 @@ class AuthController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->type = $request->type;
         $user->password = Hash::make($request->password);
         $user->save();
         return back()->with('success', 'Register Succesfully');
@@ -40,5 +41,12 @@ class AuthController extends Controller
             return redirect('/')->with('success', 'login Succesful');
         }
         return back()->with('error', 'login failed');
-    }
+    }  
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login');
+    } 
+
+
 }

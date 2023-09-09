@@ -24,10 +24,14 @@ Route::group(['middleware' => 'guest'],function() {
 
 
 Route::group(['middleware' => 'auth'],function() {
-    Route::get('/', [ProductController::class,'index']);
-    Route::get('/products/create', [ProductController::class,'create']);
-    Route::post('/products/store', [ProductController::class,'store']);
+    Route::get('/', [ProductController::class,'index'])->name('index');
     Route::get('/products/{id}/edit',[ProductController::class,'edit']);
     Route::put('/products/{id}/update',[ProductController::class,'update']);
     Route::get('/products/{id}/delete',[ProductController::class,'destroy']);
 });
+
+Route::group(['middleware' => 'admin'],function(){
+    Route::get('/products/create', [ProductController::class,'create']);
+    Route::post('/products/store', [ProductController::class,'store']);
+});
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
