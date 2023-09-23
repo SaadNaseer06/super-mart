@@ -1,20 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Cart;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Http\Controllers\CartController;
+use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
+
 
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::get();
-        return view('products.index', [
+        return view('admin.products.index', [
             'products'=> Product::latest()->get() ]);
     }
     public function create()
     {
-        return view('products.create');
+        $categories = Categories::all();
+        // $categories->save();
+        return view('admin.products.create',compact('categories'));
         
     }
     public function store(Request $request)
@@ -22,6 +29,8 @@ class ProductController extends Controller
          $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'price' => 'required',
+            'category_id' => 'required',
             'image' => 'required|mimes:jpeg,jpg,png,gif|max:1000'
          ]);
         $imageName = time().'.'.$request->image->extension();
@@ -29,6 +38,8 @@ class ProductController extends Controller
         $product = new Product;
         $product->name = $request->name;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
         $product->image = $imageName;
         $product->save();
 
@@ -38,7 +49,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::where('id',$id)->first();
-        return view('products.edit',['product' => $product]);
+        return view('admin.products.edit',['product' => $product]);
         
     }
     public function update(Request $request, $id)
@@ -58,14 +69,59 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->save();
-        return redirect('/')->withsuccess('Product Updated!!!');
-
-        
+        return redirect('/')->withsuccess('Product Updated!!!');        
     }
     public function destroy($id) 
     {
         $product = Product::where('id',$id);
         $product->delete();
         return back()->withsuccess('Product Deleted!!!');
+    }
+
+    public function viewproducts()
+    {
+        $categories = Categories::all();
+        $carts = Cart::all();
+        $total = 0;
+
+        foreach ($carts as $cart) {
+            $total += $cart->price * $cart->quantity;
+        }
+        $products = Product::all();
+        return view('users.products.index',compact('products','categories','carts','total'));
+            
+    }
+
+    public function addtocart(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $cart = session()->get('cart', []);
+        if(isset($cart[$id])) {
+
+            $cart[$id]['qty'] = $request->quantity;
+
+        } else {
+
+            $cart[$id] = [
+
+                "name" => $product->name,
+
+                "qty" => 1,
+
+                "price" => $product->price,
+
+                "image" => $product->image
+
+            ];
+        }
+        session()->put('cart', $cart);
+        
+        return view('users.products.cart',compact('product'))->with('success', 'Product has been added to cart!');
+    }
+
+    public function products($id)
+    {
+        $products = Product::where('id', $id)->first();
+        return view('users.products.view',compact('products'));
     }
 }

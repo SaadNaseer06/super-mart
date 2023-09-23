@@ -18,9 +18,9 @@ class AuthController extends Controller
     public function RegisterPost(Request $request)
     {
         $user = new User;
-        $user->name = $request->name;
+        $user->name =  $request->name;
         $user->email = $request->email;
-        $user->type = $request->type;
+        $user->type =  $request->type;
         $user->password = Hash::make($request->password);
         $user->save();
         return back()->with('success', 'Register Succesfully');
@@ -46,7 +46,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect('/login');
-    } 
+    }
 
 
 }

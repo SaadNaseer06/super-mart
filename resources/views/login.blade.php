@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-5" style="width: 100%">
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
