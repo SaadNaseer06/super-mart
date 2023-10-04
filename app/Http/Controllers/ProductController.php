@@ -80,15 +80,8 @@ class ProductController extends Controller
 
     public function viewproducts()
     {
-        $categories = Categories::all();
-        $carts = Cart::all();
-        $total = 0;
-
-        foreach ($carts as $cart) {
-            $total += $cart->price * $cart->quantity;
-        }
         $products = Product::all();
-        return view('users.products.index',compact('products','categories','carts','total'));
+        return view('users.products.index',compact('products'));
             
     }
 

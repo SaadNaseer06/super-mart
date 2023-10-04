@@ -13,7 +13,7 @@ class CartController extends Controller
 {
     public function cart()
     {
-        $carts = Cart::all();
+        $carts = Cart::where('user_id', Auth::id())->get();
         $total = 0;
 
         foreach ($carts as $cart) {
@@ -50,8 +50,14 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
 
-        $products = Cart::all();
-        return view('users.products.checkout',compact('products'));
+        $products = Cart::where('user_id', Auth::id())->get();
+        $carts = Cart::where('user_id', Auth::id())->get();
+            $total = 0;
+
+            foreach ($carts as $cart) {
+                $total += $cart->price * $cart->quantity;
+            }
+        return view('users.products.checkout',compact('products','total'));
     }
 
     public function order(Request $request)
@@ -113,9 +119,13 @@ class CartController extends Controller
     public function categoryproducts($id)
 {
     $categories = Categories::all();
-    $carts = Cart::all();   
+    $carts = Cart::where('user_id', Auth::id())->get();   
+    $total = 0;
+    foreach ($carts as $cart) {
+        $total += $cart->price * $cart->quantity;
+    }
     $products = Product::where('category_id', $id)->get();
-    return view('users.products.index', compact('categories', 'products', 'carts'));
+    return view('users.products.index', compact('categories', 'products', 'carts', 'total'));
 }
 
 }

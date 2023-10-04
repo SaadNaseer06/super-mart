@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 @section('content')
     <form method="POST" action="{{ route('category.post') }}">
         @csrf

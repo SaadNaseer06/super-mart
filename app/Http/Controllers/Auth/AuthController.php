@@ -37,8 +37,18 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
+
         if(Auth::attempt($credentials)){
-            return redirect('/')->with('success', 'login Succesful');
+
+            if(auth()->user()->type == 'admin') {
+
+                return redirect('/admin')->with('success', 'login Succesful');
+
+            }
+            elseif(auth()->user()->type == 'user') {
+
+                return redirect('/')->with('success', 'login Successful');
+            }
         }
         return back()->with('error', 'login failed');
     }  
@@ -47,6 +57,5 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/login');
     }
-
 
 }

@@ -1,4 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+        }
+
+        .container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .btn-github {
+            background-color: #4285F4;
+            color: #fff;
+        }
+
+        .btn-facebook {
+            background-color: #3B5998;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        @if (Session::has('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('error') }}
+            </div>
+        @endif
+        <form action="" method="POST">
+            @csrf
+            <input type="text" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Login">
+        </form>
+        <div>
+            <a href="{{ route('login.google') }}" class="btn btn-google" onclick="loginWithGoogle()">Login with Google</a>
+            <a href="{{ route('login.facebook') }}" class="btn btn-facebook" onclick="loginWithFacebook()">Login with Facebook</a>
+        </div>
+    </div>
+
+    <script>
+        function loginWithGithub() {
+            // Add code to initiate Google OAuth login here
+            // This would typically involve redirecting the user to a Google login page
+        }
+
+        function loginWithFacebook() {
+            // Add code to initiate Facebook OAuth login here
+            // This would typically involve redirecting the user to a Facebook login page
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+{{-- <!doctype html>
 <html lang="en">
 
 <head>
@@ -48,4 +155,4 @@
     </div>
 </body>
 
-</html>
+</html> --}}

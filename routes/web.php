@@ -5,6 +5,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\CategoryController;
+use App\Http\Controllers\Auth\loginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +24,17 @@ Route::group(['middleware' => 'guest'], function() {
     Route::post('/register', [AuthController::class,'RegisterPost']);
     Route::get('/login', [AuthController::class,'login'])->name('login');
     Route::post('/login', [AuthController::class,'loginPost']);
+    Route::get('login/google', [loginController::class, 'redirectToGoogle'])->name('login.google');
+    Route::get('/login/google/callback', [loginController::class, 'handleGooglecallback']);
+
+    Route::get('login/facebook', [loginController::class, 'redirectToFacebook'])->name('login.facebook');
+    Route::get('/login/facebook/callback', [loginController::class, 'handleFacebookcallback']);
 });
 
 
 Route::group(['middleware' => 'auth'],function() {
-    Route::get('/users/view', [ProductController::class,'viewproducts'])->name('viewproducts');
-    Route::get('/users/add-to-cart/{id}', [ProductController::class,'addtocart'])->name('addtocart');
+    Route::get('/', [ProductController::class,'viewproducts'])->name('viewproducts');
+    Route::get('/add-to-cart/{id}', [ProductController::class,'addtocart'])->name('addtocart');
     Route::get('/cart', [CartController::class,'cart'])->name('cart');
     Route::post('/cart/{id}', [CartController::class,'cartPost']);
     Route::post('/delete/{id}', [CartController::class,'destroy']);
@@ -38,7 +45,7 @@ Route::group(['middleware' => 'auth'],function() {
 });
 
 Route::group(['middleware' => 'admin'],function(){
-    Route::get('/', [ProductController::class,'index'])->name('index');
+    Route::get('/admin', [ProductController::class,'index'])->name('index');
     Route::get('/products/{id}/edit',[ProductController::class,'edit']);
     Route::put('/products/{id}/update',[ProductController::class,'update']);
     Route::get('/products/{id}/delete',[ProductController::class,'destroy']);
