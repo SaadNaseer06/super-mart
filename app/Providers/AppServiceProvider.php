@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Models\Categories;
+use App\Models\Product;
 use Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;

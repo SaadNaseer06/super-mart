@@ -49,7 +49,7 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-
+        $user = auth()->user();
         $products = Cart::where('user_id', Auth::id())->get();
         $carts = Cart::where('user_id', Auth::id())->get();
             $total = 0;
@@ -57,7 +57,9 @@ class CartController extends Controller
             foreach ($carts as $cart) {
                 $total += $cart->price * $cart->quantity;
             }
-        return view('users.products.checkout',compact('products','total'));
+        return view('users.products.checkout',compact('products','total'), [
+            'intent' => $user->createSetupIntent(),
+        ]);
     }
 
     public function order(Request $request)
@@ -126,6 +128,11 @@ class CartController extends Controller
     }
     $products = Product::where('category_id', $id)->get();
     return view('users.products.index', compact('categories', 'products', 'carts', 'total'));
+}
+
+public function singlecharge(Request $request)
+{
+    return $request->all(); 
 }
 
 }

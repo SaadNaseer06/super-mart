@@ -80,10 +80,12 @@ class ProductController extends Controller
 
     public function viewproducts()
     {
+        $user = auth()->user();
         $products = Product::all();
         return view('users.products.index',compact('products'));
             
     }
+
 
     public function addtocart(Request $request, $id)
     {

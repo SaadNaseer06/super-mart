@@ -97,6 +97,32 @@
     </div>
 @endsection
 
+@section('style')
+    <style>
+        .StripeElement {
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container">
         <!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
@@ -322,6 +348,72 @@
                     <div>
                     </div>
                 </div>
+                @foreach ($products as $product)
+                    <div id="product-pop-up" style="display: none; width: 700px;">
+                        <div class="productpage product-pop-up">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-3">
+                                    <div class="product-main-image">
+
+                                        <img src="/products/{{ $product->image }}" alt="Cool green dress with red bell"
+                                            class="img-responsive">
+                                    </div>
+                                    <div class="product-other-images">
+                                        <a href="javascript:;" class="active"><img alt="Berry Lace Dress"
+                                                src="/assets/pages/img/products/model3.jpg"></a>
+                                        <a href="javascript:;"><img alt="Berry Lace Dress"
+                                                src="/assets/pages/img/products/model4.jpg"></a>
+                                        <a href="javascript:;"><img alt="Berry Lace Dress"
+                                                src="/assets/pages/img/products/model5.jpg"></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-9">
+                                    <h2>{{ $product->name }}</h2>
+                                    <div class="price-availability-block clearfix">
+                                        <div class="price">
+                                            <strong><span>$</span>{{ $product->price }}</strong>
+                                            <em>$<span>62.00</span></em>
+                                        </div>
+                                        <div class="availability">
+                                            Availability: <strong>In Stock</strong>
+                                        </div>
+                                    </div>
+                                    <div class="description">
+                                        <p>{{ $product->description }}</p>
+                                    </div>
+                                    <div class="product-page-options">
+                                        <div class="pull-left">
+                                            <label class="control-label">Size:</label>
+                                            <select class="form-control input-sm">
+                                                <option>L</option>
+                                                <option>M</option>
+                                                <option>XL</option>
+                                            </select>
+                                        </div>
+                                        <div class="pull-left">
+                                            <label class="control-label">Color:</label>
+                                            <select class="form-control input-sm">
+                                                <option>Red</option>
+                                                <option>Blue</option>
+                                                <option>Black</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="product-page-cart">
+                                        <div class="product-quantity">
+                                            <input id="product-quantity" type="text" value="1" readonly
+                                                name="product-quantity" class="form-control input-sm">
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Add to cart</button>
+                                        <a href="shop-item.html" class="btn btn-default">More details</a>
+                                    </div>
+                                </div>
+
+                                <div class="sticker sticker-sale"></div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
                 <!-- END CONTENT -->
             </div>
             <!-- END SIDEBAR & CONTENT -->
@@ -462,6 +554,7 @@
             </div>
             <!-- END TWO PRODUCTS & PROMO -->
         </div>
+        
     </div>
 
     <!-- BEGIN BRANDS -->

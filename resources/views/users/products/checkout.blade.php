@@ -1,4 +1,504 @@
-@extends('layouts.user.app')
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <style>
+        html,
+        body,
+        .wrapper {
+            background: #f7f7f7;
+        }
+
+        .steps {
+            margin-top: -41px;
+            display: inline-block;
+            float: right;
+            font-size: 16px
+        }
+
+        .step {
+            float: left;
+            background: white;
+            padding: 7px 13px;
+            border-radius: 1px;
+            text-align: center;
+            width: 100px;
+            position: relative
+        }
+
+        .step_line {
+            margin: 0;
+            width: 0;
+            height: 0;
+            border-left: 16px solid #fff;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            z-index: 1008;
+            position: absolute;
+            left: 99px;
+            top: 1px
+        }
+
+        .step_line.backline {
+            border-left: 20px solid #f7f7f7;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            z-index: 1006;
+            position: absolute;
+            left: 99px;
+            top: -3px
+        }
+
+        .step_complete {
+            background: #357ebd
+        }
+
+        .step_complete a.check-bc,
+        .step_complete a.check-bc:hover,
+        .afix-1,
+        .afix-1:hover {
+            color: #eee;
+        }
+
+        .step_line.step_complete {
+            background: 0;
+            border-left: 16px solid #357ebd
+        }
+
+        .step_thankyou {
+            float: left;
+            background: white;
+            padding: 7px 13px;
+            border-radius: 1px;
+            text-align: center;
+            width: 100px;
+        }
+
+        .step.check_step {
+            margin-left: 5px;
+        }
+
+        .ch_pp {
+            text-decoration: underline;
+        }
+
+        .ch_pp.sip {
+            margin-left: 10px;
+        }
+
+        .check-bc,
+        .check-bc:hover {
+            color: #222;
+        }
+
+        .SuccessField {
+            border-color: #458845 !important;
+            -webkit-box-shadow: 0 0 7px #9acc9a !important;
+            -moz-box-shadow: 0 0 7px #9acc9a !important;
+            box-shadow: 0 0 7px #9acc9a !important;
+            background: #f9f9f9 url(../images/valid.png) no-repeat 98% center !important
+        }
+
+        .btn-xs {
+            line-height: 28px;
+        }
+
+        /*login form*/
+        .login-container {
+            margin-top: 30px;
+        }
+
+        .login-container input[type=submit] {
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .login-container input[type=text],
+        input[type=password] {
+            height: 44px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            -webkit-appearance: none;
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-top: 1px solid #c0c0c0;
+            /* border-radius: 2px; */
+            padding: 0 8px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        .login-container input[type=text]:hover,
+        input[type=password]:hover {
+            border: 1px solid #b9b9b9;
+            border-top: 1px solid #a0a0a0;
+            -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container-submit {
+            /* border: 1px solid #3079ed; */
+            border: 0px;
+            color: #fff;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+            background-color: #357ebd;
+            /*#4d90fe;*/
+            padding: 17px 0px;
+            font-family: roboto;
+            font-size: 14px;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
+        }
+
+        .login-container-submit:hover {
+            /* border: 1px solid #2f5bb7; */
+            border: 0px;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+            background-color: #357ae8;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+        }
+
+        .login-help {
+            font-size: 12px;
+        }
+
+        .asterix {
+            background: #f9f9f9 url(../images/red_asterisk.png) no-repeat 98% center !important;
+        }
+
+        /* images*/
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        .hand {
+            cursor: pointer;
+            cursor: pointer;
+        }
+
+        .cards {
+            padding-left: 0;
+        }
+
+        .cards li {
+            -webkit-transition: all .2s;
+            -moz-transition: all .2s;
+            -ms-transition: all .2s;
+            -o-transition: all .2s;
+            transition: all .2s;
+            background-image: url('//c2.staticflickr.com/4/3713/20116660060_f1e51a5248_m.jpg');
+            background-position: 0 0;
+            float: left;
+            height: 32px;
+            margin-right: 8px;
+            text-indent: -9999px;
+            width: 51px;
+        }
+
+        .cards .mastercard {
+            background-position: -51px 0;
+        }
+
+        .cards li {
+            -webkit-transition: all .2s;
+            -moz-transition: all .2s;
+            -ms-transition: all .2s;
+            -o-transition: all .2s;
+            transition: all .2s;
+            background-image: url('//c2.staticflickr.com/4/3713/20116660060_f1e51a5248_m.jpg');
+            background-position: 0 0;
+            float: left;
+            height: 32px;
+            margin-right: 8px;
+            text-indent: -9999px;
+            width: 51px;
+        }
+
+        .cards .amex {
+            background-position: -102px 0;
+        }
+
+        .cards li {
+            -webkit-transition: all .2s;
+            -moz-transition: all .2s;
+            -ms-transition: all .2s;
+            -o-transition: all .2s;
+            transition: all .2s;
+            background-image: url('//c2.staticflickr.com/4/3713/20116660060_f1e51a5248_m.jpg');
+            background-position: 0 0;
+            float: left;
+            height: 32px;
+            margin-right: 8px;
+            text-indent: -9999px;
+            width: 51px;
+        }
+
+        .cards li:last-child {
+            margin-right: 0;
+        }
+
+        /* images end */
+
+
+
+        /*
+                 * BOOTSTRAP
+                 */
+        .container {
+            border: none;
+        }
+
+        .panel-footer {
+            background: #fff;
+        }
+
+        .btn {
+            border-radius: 1px;
+        }
+
+        .btn-sm,
+        .btn-group-sm>.btn {
+            border-radius: 1px;
+        }
+
+        .input-sm,
+        .form-horizontal .form-group-sm .form-control {
+            border-radius: 1px;
+        }
+
+        .panel-info {
+            border-color: #999;
+        }
+
+        .panel-heading {
+            border-top-left-radius: 1px;
+            border-top-right-radius: 1px;
+        }
+
+        .panel {
+            border-radius: 1px;
+        }
+
+        .panel-info>.panel-heading {
+            color: #eee;
+            border-color: #999;
+        }
+
+        .panel-info>.panel-heading {
+            background-image: linear-gradient(to bottom, #555 0px, #888 100%);
+        }
+
+        hr {
+            border-color: #999 -moz-use-text-color -moz-use-text-color;
+        }
+
+        .panel-footer {
+            border-bottom-left-radius: 1px;
+            border-bottom-right-radius: 1px;
+            border-top: 1px solid #999;
+        }
+
+        .btn-link {
+            color: #888;
+        }
+
+        hr {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        /** MEDIA QUERIES **/
+        @media only screen and (max-width: 989px) {
+            .span1 {
+                margin-bottom: 15px;
+                clear: both;
+            }
+        }
+
+        @media only screen and (max-width: 764px) {
+            .inverse-1 {
+                float: right;
+            }
+        }
+
+        @media only screen and (max-width: 586px) {
+            .cart-titles {
+                display: none;
+            }
+
+            .panel {
+                margin-bottom: 1px;
+            }
+        }
+
+        .form-control {
+            border-radius: 1px;
+        }
+
+        @media only screen and (max-width: 486px) {
+            .col-xss-12 {
+                width: 100%;
+            }
+
+            .cart-img-show {
+                display: none;
+            }
+
+            .btn-submit-fix {
+                width: 100%;
+            }
+
+        }
+
+        /*
+                @media only screen and (max-width: 777px){
+                    .container{
+                        overflow-x: hidden;
+                    }
+                }*/
+    </style>
+
+</head>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Charge
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6">
+                    <form action="{{ route('charge.post') }}" method="post" id="payment-form">
+                        @csrf
+                        <div>
+                            Product Name and Price and description goes here
+                        </div>
+
+                        <div class="w-1/2 form-row">
+                            <label for="cardholder-name">Cardholder's Name</label>
+                            <div>
+                                <input type="text" id="cardholder-name" class="px-2 py-2 border">
+                            </div>
+
+                            <label for="card-element">
+                                Credit or debit card
+                            </label>
+                            <div id="card-element">
+                                <!-- A Stripe Element will be inserted here. -->
+                            </div>
+
+                            <!-- Used to display form errors. -->
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+
+                        <button class="mt-4">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    // Create a Stripe client.
+    var stripe = Stripe('pk_test_51NxdjRCSyBWbphf6pO4ISsfCvz8bGhQ3xR0nCRwqiiK4i3pmbYm7yBAITbx347BF5Gu23syXkvyoZ2451kCIWBMT00XEadWPlf');
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+    // Create an instance of the card Element.
+    var card = elements.create('card', {
+        style: style
+    });
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+    // Handle real-time validation errors from the card Element.
+    card.on('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    var cardHolderName = document.getElementById('cardholder-name');
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const {
+            paymentMethod,
+            error
+        } = await stripe.createPaymentMethod(
+            'card', card, {
+                billing_details: {
+                    name: cardHolderName.value
+                }
+            }
+        );
+        if (error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = error.message;
+        } else {
+            // Send the token to your server.
+            // console.log(paymentMethod);
+            stripeTokenHandler(paymentMethod);
+        }
+        // stripe.createToken(card).then(function(result) {
+        //     if (result.error) {
+        //     // Inform the user if there was an error.
+        //     var errorElement = document.getElementById('card-errors');
+        //     errorElement.textContent = result.error.message;
+        //     } else {
+        //     // Send the token to your server.
+        //     stripeTokenHandler(result.token);
+        //     }
+        // });
+    });
+    // Submit the form with the token ID.
+    function stripeTokenHandler(paymentMethod) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'paymentMethod');
+        hiddenInput.setAttribute('value', paymentMethod.id);
+
+        console.log(hiddenInput)
+        form.appendChild(hiddenInput);
+        // Submit the form
+        form.submit();
+    }
+</script>
+
+
+
+{{-- @extends('layouts.user.app')
 
 @section('content')
     <div class="main">
@@ -16,190 +516,7 @@
                     <!-- BEGIN CHECKOUT PAGE -->
                     <div class="panel-group checkout-page accordion scrollable" id="checkout-page">
 
-                        <!-- BEGIN CHECKOUT -->
-                        {{-- <div id="checkout" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page" href="#checkout-content"
-                                        class="accordion-toggle">
-                                        Step 1: Checkout Options
-                                    </a>
-                                </h2>
-                            </div>
-                            <div id="checkout-content" class="panel-collapse collapse in">
-                                <div class="panel-body row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>New Customer</h3>
-                                        <p>Checkout Options:</p>
-                                        <div class="radio-list">
-                                            <label>
-                                                <input type="radio" name="account" value="register"> Register
-                                                Account
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="account" value="guest"> Guest Checkout
-                                            </label>
-                                        </div>
-                                        <p>By creating an account you will be able to shop faster, be up to date on an
-                                            order's status, and keep track of the orders you have previously made.</p>
-                                        <button class="btn btn-primary" type="submit" data-toggle="collapse"
-                                            data-parent="#checkout-page"
-                                            data-target="#payment-address-content">Continue</button>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>Returning Customer</h3>
-                                        <p>I am a returning customer.</p>
-                                        <form role="form" action="#">
-                                            <div class="form-group">
-                                                <label for="email-login">E-Mail</label>
-                                                <input type="text" id="email-login" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="password-login">Password</label>
-                                                <input type="password" id="password-login" class="form-control">
-                                            </div>
-                                            <a href="javascript:;">Forgotten Password?</a>
-                                            <div class="padding-top-20">
-                                                <button class="btn btn-primary" type="submit">Login</button>
-                                            </div>
-                                            <hr>
-                                            <div class="login-socio">
-                                                <p class="text-muted">or login using:</p>
-                                                <ul class="social-icons">
-                                                    <li><a href="javascript:;" data-original-title="facebook"
-                                                            class="facebook" title="facebook"></a></li>
-                                                    <li><a href="javascript:;" data-original-title="Twitter" class="twitter"
-                                                            title="Twitter"></a></li>
-                                                    <li><a href="javascript:;" data-original-title="Google Plus"
-                                                            class="googleplus" title="Google Plus"></a></li>
-                                                    <li><a href="javascript:;" data-original-title="Linkedin"
-                                                            class="linkedin" title="LinkedIn"></a></li>
-                                                </ul>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- END CHECKOUT -->
-
-                        <!-- BEGIN PAYMENT ADDRESS -->
-                        {{-- <div id="payment-address" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page" href="#payment-address-content"
-                                        class="accordion-toggle">
-                                        Step 2: Account &amp; Billing Details
-                                    </a>
-                                </h2>
-                            </div>
-                            <div id="payment-address-content" class="panel-collapse collapse">
-                                <div class="panel-body row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>Your Personal Details</h3>
-                                        <div class="form-group">
-                                            <label for="firstname">First Name <span class="require">*</span></label>
-                                            <input type="text" id="firstname" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastname">Last Name <span class="require">*</span></label>
-                                            <input type="text" id="lastname" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">E-Mail <span class="require">*</span></label>
-                                            <input type="text" id="email" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="telephone">Telephone <span class="require">*</span></label>
-                                            <input type="text" id="telephone" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="fax">Fax</label>
-                                            <input type="text" id="fax" class="form-control">
-                                        </div>
-
-                                        <h3>Your Password</h3>
-                                        <div class="form-group">
-                                            <label for="password">Password <span class="require">*</span></label>
-                                            <input type="password" id="password" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password-confirm">Password Confirm <span
-                                                    class="require">*</span></label>
-                                            <input type="text" id="password-confirm" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>Your Address</h3>
-                                        <div class="form-group">
-                                            <label for="company">Company</label>
-                                            <input type="text" id="company" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="address1">Address 1</label>
-                                            <input type="text" id="address1" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="address2">Address 2</label>
-                                            <input type="text" id="address2" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="city">City <span class="require">*</span></label>
-                                            <input type="text" id="city" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="post-code">Post Code <span class="require">*</span></label>
-                                            <input type="text" id="post-code" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="country">Country <span class="require">*</span></label>
-                                            <select class="form-control input-sm" id="country">
-                                                <option value=""> --- Please Select --- </option>
-                                                <option value="244">Aaland Islands</option>
-                                                <option value="1">Afghanistan</option>
-                                                <option value="2">Albania</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="region-state">Region/State <span class="require">*</span></label>
-                                            <select class="form-control input-sm" id="region-state">
-                                                <option value=""> --- Please Select --- </option>
-                                                <option value="3513">Aberdeen</option>
-                                                <option value="3514">Aberdeenshire</option>
-                                                <option value="3515">Anglesey</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="col-md-12">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I wish to subscribe to the OXY newsletter.
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" checked="checked"> My delivery and billing
-                                                addresses are the same.
-                                            </label>
-                                        </div>
-                                        <button class="btn btn-primary  pull-right" type="submit" data-toggle="collapse"
-                                            data-parent="#checkout-page" data-target="#shipping-address-content"
-                                            id="button-payment-address">Continue</button>
-                                        <div class="checkbox pull-right">
-                                            <label>
-                                                <input type="checkbox"> I have read and agree to the <a
-                                                    title="Privacy Policy" href="javascript:;">Privacy Policy</a>
-                                                &nbsp;&nbsp;&nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- END PAYMENT ADDRESS -->
-
-                        <!-- BEGIN SHIPPING ADDRESS -->
+      
                         <div id="shipping-address" class="panel panel-default">
                             <div class="panel-heading">
                                 <h2 class="panel-title">
@@ -284,82 +601,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- END SHIPPING ADDRESS -->
-
-                        <!-- BEGIN SHIPPING METHOD -->
-                        {{-- <div id="shipping-method" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page"
-                                        href="#shipping-method-content" class="accordion-toggle">
-                                        Step 4: Delivery Method
-                                    </a>
-                                </h2>
-                            </div>
-                            <div id="shipping-method-content" class="panel-collapse collapse">
-                                <div class="panel-body row">
-                                    <div class="col-md-12">
-                                        <p>Please select the preferred shipping method to use on this order.</p>
-                                        <h4>Flat Rate</h4>
-                                        <div class="radio-list">
-                                            <label>
-                                                <input type="radio" name="FlatShippingRate" value="FlatShippingRate">
-                                                Flat Shipping Rate
-                                            </label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="delivery-comments">Add Comments About Your Order</label>
-                                            <textarea id="delivery-comments" rows="8" class="form-control"></textarea>
-                                        </div>
-                                        <button class="btn btn-primary  pull-right" type="submit"
-                                            id="button-shipping-method" data-toggle="collapse"
-                                            data-parent="#checkout-page"
-                                            data-target="#payment-method-content">Continue</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- END SHIPPING METHOD -->
-
-                        <!-- BEGIN PAYMENT METHOD -->
-                        {{-- <div id="payment-method" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page" href="#payment-method-content"
-                                        class="accordion-toggle">
-                                        Step 5: Payment Method
-                                    </a>
-                                </h2>
-                            </div>
-                            <div id="payment-method-content" class="panel-collapse collapse">
-                                <div class="panel-body row">
-                                    <div class="col-md-12">
-                                        <p>Please select the preferred payment method to use on this order.</p>
-                                        <div class="radio-list">
-                                            <label>
-                                                <input type="radio" name="CashOnDelivery" value="CashOnDelivery">
-                                                Cash On Delivery
-                                            </label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="delivery-payment-method">Add Comments About Your Order</label>
-                                            <textarea id="delivery-payment-method" rows="8" class="form-control"></textarea>
-                                        </div>
-                                        <button class="btn btn-primary  pull-right" type="submit"
-                                            id="button-payment-method" data-toggle="collapse"
-                                            data-parent="#checkout-page" data-target="#confirm-content">Continue</button>
-                                        <div class="checkbox pull-right">
-                                            <label>
-                                                <input type="checkbox"> I have read and agree to the <a
-                                                    title="Terms & Conditions" href="javascript:;">Terms & Conditions
-                                                </a> &nbsp;&nbsp;&nbsp;
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- END PAYMENT METHOD -->
+                      
 
                         <!-- BEGIN CONFIRM -->
                         <div id="confirm" class="panel panel-default">
@@ -400,7 +642,7 @@
                                                         <td class="checkout-quantity">{{ $product->quantity }}</td>
                                                         <td class="checkout-price"><strong><span>$</span>{{ $product->price }}</strong>
                                                         </td>
-                                                        <td class="checkout-total"><strong><span>$</span>{{ $product->price }}</strong>
+                                                        <td class="checkout-total"><strong><span>$</span>{{ $total }}</strong>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -409,22 +651,6 @@
                                         </div>
                                         <div class="checkout-total-block">
                                             <ul>
-                                                {{-- <li>
-                                                    <em>Sub total</em>
-                                                    <strong class="price"><span>$</span>{{ $total }}</strong>
-                                                </li> --}}
-                                                {{-- <li>
-                                                    <em>Shipping cost</em>
-                                                    <strong class="price"><span>$</span>3.00</strong>
-                                                </li>
-                                                <li>
-                                                    <em>Eco Tax (-2.00)</em>
-                                                    <strong class="price"><span>$</span>3.00</strong>
-                                                </li>
-                                                <li>
-                                                    <em>VAT (17.5%)</em>
-                                                    <strong class="price"><span>$</span>3.00</strong>
-                                                </li> --}}
                                                 <li class="checkout-total-price">
                                                     <em>Total</em>
                                                     <strong class="price"><span>$</span>{{ $total }}</strong>
@@ -434,8 +660,7 @@
                                         <div class="clearfix"></div>
                                         <button class="btn btn-primary pull-right" type="submit"
                                             id="button-confirm">Proceed to pay</button>
-                                        <button type="button"
-                                            class="btn btn-default pull-right margin-right-20">Cancel</button>
+                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -454,296 +679,7 @@
 
 
 </body>
-<!-- END BODY -->
+
 
 </html>
-
-
-{{-- <head>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css'>
-</head>
-<div class="container">
-    <div class="row mt-4">
-        <div class="col-md-8">
-            <form method="POST" action="/orderplaced">
-                @csrf
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Contact Information</label>
-                    <input type="text" name="email" placeholder="Enter Email">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                    <input type="hidden" name="price" value="{{$products->pluck('price')->sum()}}">
-                </div>
-                <div class="mb-3">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="">Shipping Details</label>
-                            </div>
-                            <div class="mb-2">
-                                <label for="exampleInputfname1" class="form-label">First Name</label>
-                                <input type="text" name="fname" placeholder="First Name"
-                                    value="{{ old('firstname') }}">
-                                @if ($errors->has('firstname'))
-                                    <span class="text-danger">{{ $errors->first('firstname') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mt-3">
-                                <label for="exampleInputlname" class="form-label mt-4">Last Name</label>
-                                <input type="text" name="lname" placeholder="Last Name"
-                                    value="{{ old('lastname') }}">
-                                {{ $errors->first('lastname') }}
-                            </div>
-                            <div class="mt-3">
-                                <label for="exampleInputcontact" class="form-label mt-4">Contact</label>
-                                <input type="number" name="contact" placeholder="Contact"
-                                    value="{{ old('contact') }}">
-                                {{ $errors->first('contact') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="company">Company</label>
-                    <input type="text" name="company" placeholder="Company(Optional)">
-                </div>
-                <div class="mb-3">
-                    <label for="address">Address</label>
-                    <input type="text" name="address" placeholder="Address" value="{{ old('address') }}">
-                    {{ $errors->first('address') }}
-                </div>
-                <div class="mb-3">
-                    <label for="appartment">Appartment</label>
-                    <input type="text" name="appartment" placeholder="Apartment,suit,etc(Optional)">
-                </div>
-                <div class="mb-3">
-                    <label for="city">City</label>
-                    <input type="text" name="city" placeholder="City" value="{{ old('city') }}">
-                    {{ $errors->first('city') }}
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="Country">Country</label>
-                        <select name="Country" value="{{ old('country') }}">
-                            {{ $errors->first('country') }}
-                            <option value="" selected="selected">Select Country</option>
-                            <option value="Afghanistan">Afghanistan</option>
-                            <option value="Albania">Albania</option>
-                            <option value="Algeria">Algeria</option>
-                            <option value="American Samoa">American Samoa</option>
-                            <option value="Andorra">Andorra</option>
-                            <option value="Angola">Angola</option>
-                            <option value="Anguilla">Anguilla</option>
-                            <option value="Antarctica">Antarctica</option>
-                            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Armenia">Armenia</option>
-                            <option value="Aruba">Aruba</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Austria">Austria</option>
-                            <option value="Azerbaijan">Azerbaijan</option>
-                            <option value="Bahamas">Bahamas</option>
-                            <option value="Bahrain">Bahrain</option>
-                            <option value="Bangladesh">Bangladesh</option>
-                            <option value="Barbados">Barbados</option>
-                            <option value="Belarus">Belarus</option>
-                            <option value="Belgium">Belgium</option>
-                            <option value="Belize">Belize</option>
-                            <option value="Benin">Benin</option>
-                            <option value="Bermuda">Bermuda</option>
-                            <option value="Bhutan">Bhutan</option>
-                            <option value="Bolivia">Bolivia</option>
-                            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                            <option value="Botswana">Botswana</option>
-                            <option value="Bouvet Island">Bouvet Island</option>
-                            <option value="Brazil">Brazil</option>
-                            <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-                            <option value="Brunei Darussalam">Brunei Darussalam</option>
-                            <option value="Bulgaria">Bulgaria</option>
-                            <option value="Burkina Faso">Burkina Faso</option>
-                            <option value="Burundi">Burundi</option>
-                            <option value="Cambodia">Cambodia</option>
-                            <option value="Cameroon">Cameroon</option>
-                            <option value="Canada">Canada</option>
-                            <option value="Cape Verde">Cape Verde</option>
-                            <option value="Cayman Islands">Cayman Islands</option>
-                            <option value="Central African Republic">Central African Republic</option>
-                            <option value="Chad">Chad</option>
-                            <option value="Chile">Chile</option>
-                            <option value="China">China</option>
-                            <option value="Christmas Island">Christmas Island</option>
-                            <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Comoros">Comoros</option>
-                            <option value="Congo">Congo</option>
-                            <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The
-                            </option>
-                            <option value="Cook Islands">Cook Islands</option>
-                            <option value="Costa Rica">Costa Rica</option>
-                            <option value="Cote D'ivoire">Cote D'ivoire</option>
-                            <option value="Croatia">Croatia</option>
-                            <option value="Cuba">Cuba</option>
-                            <option value="Cyprus">Cyprus</option>
-                            <option value="Czech Republic">Czech Republic</option>
-                            <option value="Denmark">Denmark</option>
-                            <option value="Djibouti">Djibouti</option>
-                            <option value="Dominica">Dominica</option>
-                            <option value="Dominican Republic">Dominican Republic</option>
-                            <option value="Ecuador">Ecuador</option>
-                            <option value="Egypt">Egypt</option>
-                            <option value="El Salvador">El Salvador</option>
-                            <option value="Equatorial Guinea">Equatorial Guinea</option>
-                            <option value="Eritrea">Eritrea</option>
-                            <option value="Estonia">Estonia</option>
-                            <option value="Ethiopia">Ethiopia</option>
-                            <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
-                            <option value="Faroe Islands">Faroe Islands</option>
-                            <option value="Fiji">Fiji</option>
-                            <option value="Finland">Finland</option>
-                            <option value="France">France</option>
-                            <option value="French Guiana">French Guiana</option>
-                            <option value="French Polynesia">French Polynesia</option>
-                            <option value="French Southern Territories">French Southern Territories</option>
-                            <option value="Gabon">Gabon</option>
-                            <option value="Gambia">Gambia</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Germany">Germany</option>
-                            <option value="Ghana">Ghana</option>
-                            <option value="Gibraltar">Gibraltar</option>
-                            <option value="Greece">Greece</option>
-                            <option value="Greenland">Greenland</option>
-                            <option value="Grenada">Grenada</option>
-                            <option value="Guadeloupe">Guadeloupe</option>
-                            <option value="Guam">Guam</option>
-                            <option value="Guatemala">Guatemala</option>
-                            <option value="Guinea">Guinea</option>
-                            <option value="Guinea-bissau">Guinea-bissau</option>
-                            <option value="Guyana">Guyana</option>
-                            <option value="Haiti">Haiti</option>
-                            <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands
-                            </option>
-                            <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
-                            <option value="Honduras">Honduras</option>
-                            <option value="Hong Kong">Hong Kong</option>
-                            <option value="Hungary">Hungary</option>
-                            <option value="Iceland">Iceland</option>
-                            <option value="India">India</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
-                            <option value="Iraq">Iraq</option>
-                            <option value="Ireland">Ireland</option>
-                            <option value="Israel">Israel</option>
-                            <option value="Italy">Italy</option>
-                            <option value="Jamaica">Jamaica</option>
-                            <option value="Japan">Japan</option>
-                            <option value="Jordan">Jordan</option>
-                            <option value="Kazakhstan">Kazakhstan</option>
-                            <option value="Kenya">Kenya</option>
-                            <option value="Kiribati">Kiribati</option>
-                            <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic
-                                of
-                            </option>
-                            <option value="Korea, Republic of">Korea, Republic of</option>
-                            <option value="Kuwait">Kuwait</option>
-                            <option value="Kyrgyzstan">Kyrgyzstan</option>
-                            <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-                            <option value="Latvia">Latvia</option>
-                            <option value="Lebanon">Lebanon</option>
-                            <option value="Lesotho">Lesotho</option>
-                            <option value="Liberia">Liberia</option>
-                            <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
-                            <option value="Liechtenstein">Liechtenstein</option>
-                            <option value="Lithuania">Lithuania</option>
-                            <option value="Luxembourg">Luxembourg</option>
-                            <option value="Macao">Macao</option>
-                            <option value="North Macedonia">North Macedonia</option>
-                            <option value="Madagascar">Madagascar</option>
-                            <option value="Malawi">Malawi</option>
-                            <option value="Malaysia">Malaysia</option>
-                            <option value="Maldives">Maldives</option>
-                            <option value="Mali">Mali</option>
-                            <option value="Malta">Malta</option>
-                            <option value="Marshall Islands">Marshall Islands</option>
-                            <option value="Martinique">Martinique</option>
-                            <option value="Mauritania">Mauritania</option>
-                            <option value="Mauritius">Mauritius</option>
-                            <option value="Mayotte">Mayotte</option>
-                            <option value="Mexico">Mexico</option>
-                            <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-                            <option value="Moldova, Republic of">Moldova, Republic of</option>
-                            <option value="Monaco">Monaco</option>
-                            <option value="Mongolia">Mongolia</option>
-                            <option value="Montserrat">Montserrat</option>
-                            <option value="Morocco">Morocco</option>
-                            <option value="Mozambique">Mozambique</option>
-                            <option value="Myanmar">Myanmar</option>
-                            <option value="Namibia">Namibia</option>
-                            <option value="Nauru">Nauru</option>
-                            <option value="Nepal">Nepal</option>
-                            <option value="Netherlands">Netherlands</option>
-                            <option value="Netherlands Antilles">Netherlands Antilles</option>
-                            <option value="New Caledonia">New Caledonia</option>
-                            <option value="New Zealand">New Zealand</option>
-                            <option value="Nicaragua">Nicaragua</option>
-                            <option value="Niger">Niger</option>
-                            <option value="Nigeria">Nigeria</option>
-                            <option value="Niue">Niue</option>
-                            <option value="Norfolk Island">Norfolk Island</option>
-                            <option value="Northern Mariana Islands">Northern Mariana Islands</option>
-                            <option value="Norway">Norway</option>
-                            <option value="Oman">Oman</option>
-                            <option value="Pakistan">Pakistan</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="postalcode">Postal Code</label>
-                        <input type="number" name="postalcode" placeholder="Postal Code">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="appartment">Appartment(Optional)
-                    </label>
-                    <input type="text" name="appartment" class="form-control" id="exampleInputappartment1"
-                        aria-describedby="appartmentHelp" placeholder="Apartment,suit,etc(Optional)">
-                </div>
-                <div class="mt-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-0 border rounded-3">
-                <div class="card-body">
-                    @foreach ($products as $product)
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                    <img src="/products/{{ $product->image }}" class="w-100">
-                                    <a href="#!">
-                                        <div class="hover-overlay">
-                                            <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                                <div class="d-flex flex-row align-items-center mb-1">
-                                    <h5 class="mb-1 me-1">${{ $product->price }}</h5>
-                                </div>
-                                <h6 class="mb-1 me-1" style="width: 100px">Total
-                                    :${{ $product->price * $product->quantity }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
+ --}}
