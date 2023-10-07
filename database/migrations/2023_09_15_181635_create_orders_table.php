@@ -15,13 +15,18 @@ return new class extends Migration
         {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->integer('price');
-            $table->string('contact');
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('email');
+            $table->string('contact');
+            $table->integer('fax');
+            $table->string('company');
             $table->string('address');
+            $table->string('postalcode');
             $table->string('city');
-            $table->string('counntry');
+            $table->string('country');
+            $table->string('state');
+            $table->integer('price');
             $table->timestamps();
         });
     }

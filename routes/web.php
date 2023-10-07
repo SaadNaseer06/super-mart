@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\loginController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -47,11 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('charge');
 
     Route::middleware(['auth:sanctum', 'verified'])->post('/charge', function (Request $request) {
-        // dd($request);
         $payment = auth()->user()->charge('1000', $request->paymentMethod);
-        dd($payment);
+        dd($payment->id);
         return redirect('/');
     })->name('charge.post');
+
+    Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.post');
 
 });
 

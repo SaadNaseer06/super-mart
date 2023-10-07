@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Categories;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Controllers\CartController;
@@ -119,4 +120,6 @@ class ProductController extends Controller
         $products = Product::where('id', $id)->first();
         return view('users.products.view',compact('products'));
     }
+
+    
 }

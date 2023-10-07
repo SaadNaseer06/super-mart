@@ -1,8 +1,9 @@
+@extends('layouts.user.app')
+
 <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
 
     <style>
         html,
@@ -365,140 +366,6 @@
     </style>
 
 </head>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Charge
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6">
-                    <form action="{{ route('charge.post') }}" method="post" id="payment-form">
-                        @csrf
-                        <div>
-                            Product Name and Price and description goes here
-                        </div>
-
-                        <div class="w-1/2 form-row">
-                            <label for="cardholder-name">Cardholder's Name</label>
-                            <div>
-                                <input type="text" id="cardholder-name" class="px-2 py-2 border">
-                            </div>
-
-                            <label for="card-element">
-                                Credit or debit card
-                            </label>
-                            <div id="card-element">
-                                <!-- A Stripe Element will be inserted here. -->
-                            </div>
-
-                            <!-- Used to display form errors. -->
-                            <div id="card-errors" role="alert"></div>
-                        </div>
-
-                        <button class="mt-4">
-                            Subscribe Now
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-<script src="https://js.stripe.com/v3/"></script>
-
-<script>
-    // Create a Stripe client.
-    var stripe = Stripe('pk_test_51NxdjRCSyBWbphf6pO4ISsfCvz8bGhQ3xR0nCRwqiiK4i3pmbYm7yBAITbx347BF5Gu23syXkvyoZ2451kCIWBMT00XEadWPlf');
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-    // Custom styling can be passed to options when creating an Element.
-    // (Note that this demo uses a wider set of styles than the guide below.)
-    var style = {
-        base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-                color: '#aab7c4'
-            }
-        },
-        invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-        }
-    };
-    // Create an instance of the card Element.
-    var card = elements.create('card', {
-        style: style
-    });
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-    // Handle real-time validation errors from the card Element.
-    card.on('change', function(event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-    var cardHolderName = document.getElementById('cardholder-name');
-    form.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const {
-            paymentMethod,
-            error
-        } = await stripe.createPaymentMethod(
-            'card', card, {
-                billing_details: {
-                    name: cardHolderName.value
-                }
-            }
-        );
-        if (error) {
-            // Inform the user if there was an error.
-            var errorElement = document.getElementById('card-errors');
-            errorElement.textContent = error.message;
-        } else {
-            // Send the token to your server.
-            // console.log(paymentMethod);
-            stripeTokenHandler(paymentMethod);
-        }
-        // stripe.createToken(card).then(function(result) {
-        //     if (result.error) {
-        //     // Inform the user if there was an error.
-        //     var errorElement = document.getElementById('card-errors');
-        //     errorElement.textContent = result.error.message;
-        //     } else {
-        //     // Send the token to your server.
-        //     stripeTokenHandler(result.token);
-        //     }
-        // });
-    });
-    // Submit the form with the token ID.
-    function stripeTokenHandler(paymentMethod) {
-        // Insert the token ID into the form so it gets submitted to the server
-        var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'paymentMethod');
-        hiddenInput.setAttribute('value', paymentMethod.id);
-
-        console.log(hiddenInput)
-        form.appendChild(hiddenInput);
-        // Submit the form
-        form.submit();
-    }
-</script>
-
-
-
-{{-- @extends('layouts.user.app')
 
 @section('content')
     <div class="main">
@@ -516,92 +383,83 @@
                     <!-- BEGIN CHECKOUT PAGE -->
                     <div class="panel-group checkout-page accordion scrollable" id="checkout-page">
 
-      
+
                         <div id="shipping-address" class="panel panel-default">
                             <div class="panel-heading">
                                 <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page"
-                                        href="#shipping-address-content" class="accordion-toggle">
+                                    <a data-toggle="collapse" data-parent="#checkout-page" href="#shipping-address-content"
+                                        class="accordion-toggle">
                                         Step 3: Delivery Details
                                     </a>
                                 </h2>
                             </div>
                             <div id="shipping-address-content" class="panel-collapse collapse">
                                 <div class="panel-body row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label for="firstname-dd">First Name <span class="require">*</span></label>
-                                            <input type="text" id="firstname-dd" class="form-control">
+                                    <form action="{{ route('order.post') }}" method="POST">
+                                        @csrf
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label for="firstname">First Name <span class="require">*</span></label>
+                                                <input type="text" name="firstname" id="firstname" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lastname">Last Name <span class="require">*</span></label>
+                                                <input type="text" id="lastname" name="lastname" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">E-Mail <span class="require">*</span></label>
+                                                <input type="text" id="email" name="email" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="contact">Telephone <span class="require">*</span></label>
+                                                <input type="text" id="contact" name="contact" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fax">Fax</label>
+                                                <input type="text" name="fax" id="fax" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="company">Company</label>
+                                                <input type="text" name="company" id="company" class="form-control">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="lastname-dd">Last Name <span class="require">*</span></label>
-                                            <input type="text" id="lastname-dd" class="form-control">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <input type="text" id="address" name="address" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="postalcode">Postal Code <span class="require">*</span></label>
+                                                <input type="number" id="postalcode" name="postalcode" class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="city">City <span class="require">*</span></label>
+                                                <input type="text" id="city" name="city" class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="country">Country <span class="require">*</span></label>
+                                                <input type="text" id="country" name="country" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="state">State/Region <span class="require">*</span></label>
+                                                <input type="text" id="state" name="state" class="form-control">
+                                            </div>
+                                            <h1>Price: {{ $total }}</h1>
+                                            <input type="hidden" value="{{ $total }}" name="price">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="email-dd">E-Mail <span class="require">*</span></label>
-                                            <input type="text" id="email-dd" class="form-control">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary  pull-right" type="submit"
+                                                id="button-shipping-address" data-toggle="collapse"
+                                                data-parent="#checkout-page"
+                                                data-target="#shipping-method-content">Continue</button>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="telephone-dd">Telephone <span class="require">*</span></label>
-                                            <input type="text" id="telephone-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="fax-dd">Fax</label>
-                                            <input type="text" id="fax-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="company-dd">Company</label>
-                                            <input type="text" id="company-dd" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label for="address1-dd">Address 1</label>
-                                            <input type="text" id="address1-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="address2-dd">Address 2</label>
-                                            <input type="text" id="address2-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="city-dd">City <span class="require">*</span></label>
-                                            <input type="text" id="city-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="post-code-dd">Post Code <span class="require">*</span></label>
-                                            <input type="text" id="post-code-dd" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="country-dd">Country <span class="require">*</span></label>
-                                            <select class="form-control input-sm" id="country-dd">
-                                                <option value=""> --- Please Select --- </option>
-                                                <option value="244">Aaland Islands</option>
-                                                <option value="1">Afghanistan</option>
-                                                <option value="2">Albania</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="region-state-dd">Region/State <span
-                                                    class="require">*</span></label>
-                                            <select class="form-control input-sm" id="region-state-dd">
-                                                <option value=""> --- Please Select --- </option>
-                                                <option value="3513">Aberdeen</option>
-                                                <option value="3514">Aberdeenshire</option>
-                                                <option value="3515">Anglesey</option>
-                                                <option value="3516">Angus</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="btn btn-primary  pull-right" type="submit"
-                                            id="button-shipping-address" data-toggle="collapse"
-                                            data-parent="#checkout-page"
-                                            data-target="#shipping-method-content">Continue</button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                      
+
 
                         <!-- BEGIN CONFIRM -->
                         <div id="confirm" class="panel panel-default">
@@ -636,17 +494,19 @@
                                                         <td class="checkout-description">
                                                             <h3><a href="javascript:;">{{ $product->name }}</a>
                                                             </h3>
-                                                            
+
                                                         </td>
                                                         <td class="checkout-model">RES.193</td>
                                                         <td class="checkout-quantity">{{ $product->quantity }}</td>
-                                                        <td class="checkout-price"><strong><span>$</span>{{ $product->price }}</strong>
+                                                        <td class="checkout-price">
+                                                            <strong><span>$</span>{{ $product->price }}</strong>
                                                         </td>
-                                                        <td class="checkout-total"><strong><span>$</span>{{ $total }}</strong>
+                                                        <td class="checkout-total">
+                                                            <strong><span>$</span>{{ $total }}</strong>
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                                
+
                                             </table>
                                         </div>
                                         <div class="checkout-total-block">
@@ -654,13 +514,48 @@
                                                 <li class="checkout-total-price">
                                                     <em>Total</em>
                                                     <strong class="price"><span>$</span>{{ $total }}</strong>
+                                                    <input type="hidden" value="{{ $total }}">
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="clearfix"></div>
-                                        <button class="btn btn-primary pull-right" type="submit"
+                                        {{-- <button class="btn btn-primary pull-right" type="submit"
                                             id="button-confirm">Proceed to pay</button>
-                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a>
+                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a> --}}
+                                    </div>
+                                    <div class="py-12">
+                                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                                                <div class="p-6">
+                                                    <form action="{{ route('charge.post') }}" method="post"
+                                                        id="payment-form">
+                                                        @csrf
+                                                        <div class="w-1/2 form-row">
+                                                            <label for="cardholder-name">Cardholder's Name</label>
+                                                            <div>
+                                                                <input type="text" id="cardholder-name"
+                                                                    class="px-2 py-2 border">
+                                                            </div>
+
+                                                            <label for="card-element">
+                                                                Credit or debit card
+                                                            </label>
+                                                            <div id="card-element">
+
+                                                            </div>
+
+
+                                                            <div id="card-errors" role="alert"></div>
+                                                        </div>
+
+                                                        <button class="mt-4 btn btn-primary pull-right">
+                                                            Proceed to Pay
+                                                        </button>
+                                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -675,6 +570,82 @@
         </div>
     </div>
 
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        var stripe = Stripe(
+            'pk_test_51NxdjRCSyBWbphf6pO4ISsfCvz8bGhQ3xR0nCRwqiiK4i3pmbYm7yBAITbx347BF5Gu23syXkvyoZ2451kCIWBMT00XEadWPlf'
+        );
+
+        var elements = stripe.elements();
+
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        var card = elements.create('card', {
+            style: style
+        });
+
+        card.mount('#card-element');
+
+        card.on('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        var form = document.getElementById('payment-form');
+        var cardHolderName = document.getElementById('cardholder-name');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const {
+                paymentMethod,
+                error
+            } = await stripe.createPaymentMethod(
+                'card', card, {
+                    billing_details: {
+                        name: cardHolderName.value
+                    }
+                }
+            );
+            if (error) {
+
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                stripeTokenHandler(paymentMethod);
+            }
+        });
+
+        function stripeTokenHandler(paymentMethod) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'paymentMethod');
+            hiddenInput.setAttribute('value', paymentMethod.id);
+
+            console.log(hiddenInput)
+            form.appendChild(hiddenInput);
+            // Submit the form
+            form.submit();
+        }
+    </script>
 @endsection
 
 
@@ -682,4 +653,3 @@
 
 
 </html>
- --}}

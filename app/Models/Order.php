@@ -11,15 +11,21 @@ class Order extends Model
     protected $fillable = [
         'email',
         'user_id',
+        'cart_id',
         'firstname',
         'lastname',
+        'email',
+        'contact',
+        'fax',
         'company',
         'address',
+        'postalcode', 
         'appartment',
         'city',
-        'counntry',
-        'postal_code', 
-        'quantity' 
+        'country',
+        'state',
+        'price'
+        // 'quantity' 
     ];
     public function products()
     {
