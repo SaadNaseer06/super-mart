@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('state');
             $table->integer('price');
+            $table->string('payment_id');
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Controllers\CartController;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
 
 
@@ -81,6 +82,7 @@ class ProductController extends Controller
 
     public function viewproducts()
     {
+        
         $user = auth()->user();
         $products = Product::all();
         return view('users.products.index',compact('products'));

@@ -395,7 +395,7 @@
                             </div>
                             <div id="shipping-address-content" class="panel-collapse collapse">
                                 <div class="panel-body row">
-                                    <form action="{{ route('order.post') }}" method="POST">
+                                    <form action="{{ route('charge.post') }}" method="post" id="payment-form">
                                         @csrf
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
@@ -430,7 +430,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="postalcode">Postal Code <span class="require">*</span></label>
-                                                <input type="number" id="postalcode" name="postalcode" class="form-control">
+                                                <input type="number" id="postalcode" name="postalcode"
+                                                    class="form-control">
                                             </div>
 
                                             <div class="form-group">
@@ -448,6 +449,7 @@
                                             </div>
                                             <h1>Price: {{ $total }}</h1>
                                             <input type="hidden" value="{{ $total }}" name="price">
+                                            
                                         </div>
                                         <div class="col-md-12">
                                             <button class="btn btn-primary  pull-right" type="submit"
@@ -455,7 +457,6 @@
                                                 data-parent="#checkout-page"
                                                 data-target="#shipping-method-content">Continue</button>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -527,31 +528,31 @@
                                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                                             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                                                 <div class="p-6">
-                                                    <form action="{{ route('charge.post') }}" method="post"
-                                                        id="payment-form">
-                                                        @csrf
-                                                        <div class="w-1/2 form-row">
-                                                            <label for="cardholder-name">Cardholder's Name</label>
-                                                            <div>
-                                                                <input type="text" id="cardholder-name"
-                                                                    class="px-2 py-2 border">
-                                                            </div>
-
-                                                            <label for="card-element">
-                                                                Credit or debit card
-                                                            </label>
-                                                            <div id="card-element">
-
-                                                            </div>
-
-
-                                                            <div id="card-errors" role="alert"></div>
+                                                    {{-- <input type="hidden" name="firstname"
+                                                    value="{{ $order[0]->firstname }}"> --}}
+                                                    <div class="w-1/2 form-row">
+                                                        <label for="cardholder-name">Cardholder's Name</label>
+                                                        <div>
+                                                            <input type="text" id="cardholder-name"
+                                                                class="px-2 py-2 border">
                                                         </div>
 
-                                                        <button class="mt-4 btn btn-primary pull-right">
-                                                            Proceed to Pay
-                                                        </button>
-                                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a>
+                                                        <label for="card-element">
+                                                            Credit or debit card
+                                                        </label>
+                                                        <div id="card-element">
+
+                                                        </div>
+
+
+                                                        <div id="card-errors" role="alert"></div>
+                                                    </div>
+
+                                                    <button class="mt-4 btn btn-primary pull-right">
+                                                        Proceed to Pay
+                                                    </button>
+                                                    <a href="/"
+                                                        class="btn btn-default pull-right margin-right-20">Cancel</a>
                                                     </form>
                                                 </div>
                                             </div>

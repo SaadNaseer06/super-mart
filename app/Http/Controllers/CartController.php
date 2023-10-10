@@ -59,6 +59,7 @@ class CartController extends Controller
             }
         return view('users.products.checkout',compact('products','total'), [
             'intent' => $user->createSetupIntent(),
+            
         ]);
     }
 
@@ -82,8 +83,6 @@ class CartController extends Controller
         $order->address = $request->address;
         $order->city = $request->city;
         $order->counntry = $request->Country;
-        // $order->quantity = $request->quantity;
-
         $order->save();
         
         return back()->with('success','order placed');    
