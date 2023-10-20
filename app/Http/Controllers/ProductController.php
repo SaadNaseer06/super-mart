@@ -83,12 +83,12 @@ class ProductController extends Controller
 
     public function viewproducts()
     {
-        
+        $categories = Categories::all();
         $user = auth()->user();
-        $products = Product::all();
+        $products = Product::paginate(6);
         $search = request('search');
         $results = Product::search($search)->get();
-        return view('users.products.index',compact('products','results'));
+        return view('users.products.index',compact('products','results','categories'));
             
     }
 

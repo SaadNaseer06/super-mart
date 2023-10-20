@@ -113,7 +113,7 @@ class CartController extends Controller
     public function categorydestroy($id)
     {
         $categories = Categories::where('id', $id);
-        $categories->delete();
+        $categories->delete();  
         return back()->with('success', 'Category Deleted');
     }
 
@@ -125,7 +125,8 @@ class CartController extends Controller
     foreach ($carts as $cart) {
         $total += $cart->price * $cart->quantity;
     }
-    $products = Product::where('category_id', $id)->get();
+    
+    $products = Product::where('category_id', $id)->paginate(6);
     return view('users.products.index', compact('categories', 'products', 'carts', 'total'));
 }
 

@@ -42,7 +42,7 @@ class AuthController extends Controller
 
             if(auth()->user()->type == 'admin') {
 
-                return redirect('/admin')->with('success', 'login Succesful');
+                return redirect('/admin')->with('success', 'login Succesfull');
 
             }
             elseif(auth()->user()->type == 'user') {

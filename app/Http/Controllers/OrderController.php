@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Product;
 use App\Models\Cart;
+use App\Models\Categories;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Payment;
@@ -106,10 +107,11 @@ class OrderController extends Controller
     public function search()
     {
         $search = request('search'); 
+        $categories = Categories::all();
 
-        $results = \App\Models\Product::search($search)->get();
+        $products = \App\Models\Product::search($search)->paginate(9);
 
-        return view('users.products.index', compact('results') ); 
+        return view('users.products.index', compact('products','categories') );
     }
 
 }

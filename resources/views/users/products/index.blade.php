@@ -256,9 +256,11 @@
             <!-- BEGIN SIDEBAR -->
             <div class="sidebar col-md-3 col-sm-4">
                 <ul class="list-group margin-bottom-25 sidebar-menu">
-                    <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-                            Ladies</a></li>
-                    <li class="list-group-item clearfix dropdown">
+                    @foreach ($categories as $category)
+                        <li class="list-group-item clearfix"><a href="/category/{{ $category->id }}"><i class="fa fa-angle-right"></i>
+                            {{ $category->name }}</a></li>
+                    @endforeach
+                    {{-- <li class="list-group-item clearfix dropdown">
                         <a href="shop-product-list.html">
                             <i class="fa fa-angle-right"></i>
                             Mens
@@ -297,8 +299,8 @@
                             <li><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> T-Shirts</a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
+                    </li> --}}
+                    {{-- <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
                             Kids</a></li>
                     <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
                             Accessories</a></li>
@@ -310,54 +312,60 @@
                             Electronics</a></li>
                     <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
                             Home & Garden</a></li>
-                    <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i>
-                            Custom Link</a></li>
+                    <li class="list-group-item clearfix"><a href="shop-product-list.html"><i class="fa fa-angle-right"></i> --}}
+                    {{-- Custom Link</a></li> --}}
                 </ul>
             </div>
             <!-- END SIDEBAR -->
             <!-- BEGIN CONTENT -->
             <div class="col-md-9 col-sm-8">
                 <h2>Three items</h2>
-                <div class="owl-carousel owl-carousel3">
-                    @foreach ($results as $result)
+                <div class="" style="">
+                    @foreach ($products as $product)
                         <div>
-                            <div class="product-item">
-                                <div class="pi-img-wrapper">
-                                    <img src="/products/{{ $result->image }}" class="img-responsive"
-                                        alt="Berry Lace Dress">
-                                    <div>
-                                        <a href="/products/{{ $result->image }}"
-                                            class="btn btn-default fancybox-button">Zoom</a>
-                                        <a href="#product-pop-up" class="btn btn-default fancybox-fast-view">View</a>
+                            <div class="col-md-4" style="margin-top: 10px">
+                                <div class="product-item">
+                                    <div class="pi-img-wrapper">
+                                        <img src="/products/{{ $product->image }}" class="img-responsive"
+                                            alt="Berry Lace Dress" style="height: 240px">
+                                        <div>
+                                            <a href="/products/{{ $product->image }}"
+                                                class="btn btn-default fancybox-button">Zoom</a>
+                                            <a href="#product-pop-up" class="btn btn-default fancybox-fast-view">View</a>
+                                        </div>
                                     </div>
+                                    <h3><a href="/product/{{ $product->id }}">{{ $product->name }}</a></h3>
+                                    <div class="pi-price">${{ $product->price }}</div>
+                                    <form action="{{ url('cart', $product->id) }}" method="POST">
+
+                                        @csrf
+
+                                        <input type="number" value="1" min="1" name="quantity"
+                                            class="form-control">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                        <input class="btn btn-primary" type="submit" value="Add Cart">
+                                    </form>
+                                    <div class="sticker sticker-new"></div>
                                 </div>
-                                <h3><a href="/product/{{ $result->id }}">{{ $result->name }}</a></h3>
-                                <div class="pi-price">${{ $result->price }}</div>
-                                <form action="{{ url('cart', $result->id) }}" method="POST">
-
-                                    @csrf
-
-                                    <input type="number" value="1" min="1" name="quantity"
-                                        class="form-control">
-                                    <input type="hidden" name="product_id" value="{{ $result->id }}">
-
-                                    <input class="btn btn-primary" type="submit" value="Add Cart">
-                                </form>
-                                <div class="sticker sticker-new"></div>
                             </div>
                         </div>
                     @endforeach
                     <div>
+                        <div class="col-md-12" style="display: flex;justify-content:center; margin-top: 10px;">
+                            {{ $products->links() }}
+                        </div>
                     </div>
+
                 </div>
-                @foreach ($results as $result)
+                @foreach ($products as $product)
                     <div id="product-pop-up" style="display: none; width: 700px;">
                         <div class="productpage product-pop-up">
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-3">
                                     <div class="product-main-image">
 
-                                        <img src="/products/{{ $result->image }}" alt="Cool green dress with red bell"
+                                        <img src="/products/{{ $product->image }}" alt="Cool green dress with red bell"
                                             class="img-responsive">
                                     </div>
                                     <div class="product-other-images">
@@ -370,10 +378,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-9">
-                                    <h2>{{ $result->name }}</h2>
+                                    <h2>{{ $product->name }}</h2>
                                     <div class="price-availability-block clearfix">
                                         <div class="price">
-                                            <strong><span>$</span>{{ $result->price }}</strong>
+                                            <strong><span>$</span>{{ $product->price }}</strong>
                                             <em>$<span>62.00</span></em>
                                         </div>
                                         <div class="availability">
@@ -381,7 +389,7 @@
                                         </div>
                                     </div>
                                     <div class="description">
-                                        <p>{{ $result->description }}</p>
+                                        <p>{{ $product->description }}</p>
                                     </div>
                                     <div class="product-page-options">
                                         <div class="pull-left">
@@ -553,46 +561,45 @@
                 </div>
             @endsection --}}
             @section('brands')
-            <div class="brands">
-                <div class="container">
-                    <div class="owl-carousel owl-carousel6-brands">
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
-                                title="canon"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
-                                title="esprit"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
-                                title="gap"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
-                                title="next"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
-                                title="puma"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
-                                title="zara"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
-                                title="canon"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
-                                title="esprit"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
-                                title="gap"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
-                                title="next"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
-                                title="puma"></a>
-                        <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
-                                title="zara"></a>
+                <div class="brands">
+                    <div class="container">
+                        <div class="owl-carousel owl-carousel6-brands">
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
+                                    title="canon"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
+                                    title="esprit"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
+                                    title="gap"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
+                                    title="next"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
+                                    title="puma"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
+                                    title="zara"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
+                                    title="canon"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg"
+                                    alt="esprit" title="esprit"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
+                                    title="gap"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
+                                    title="next"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
+                                    title="puma"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
+                                    title="zara"></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-                
             @endsection
-                <!-- END TWO PRODUCTS -->
-                <!-- BEGIN PROMO -->
-                <!-- END PROMO -->
-            </div>
-            <!-- END TWO PRODUCTS & PROMO -->
+            <!-- END TWO PRODUCTS -->
+            <!-- BEGIN PROMO -->
+            <!-- END PROMO -->
         </div>
-
+        <!-- END TWO PRODUCTS & PROMO -->
     </div>
 
-    <!-- BEGIN BRANDS -->
+</div>
+
+<!-- BEGIN BRANDS -->
 @endsection
