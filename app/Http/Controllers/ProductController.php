@@ -86,7 +86,9 @@ class ProductController extends Controller
         
         $user = auth()->user();
         $products = Product::all();
-        return view('users.products.index',compact('products'));
+        $search = request('search');
+        $results = Product::search($search)->get();
+        return view('users.products.index',compact('products','results'));
             
     }
 

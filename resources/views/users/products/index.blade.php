@@ -319,27 +319,27 @@
             <div class="col-md-9 col-sm-8">
                 <h2>Three items</h2>
                 <div class="owl-carousel owl-carousel3">
-                    @foreach ($products as $product)
+                    @foreach ($results as $result)
                         <div>
                             <div class="product-item">
                                 <div class="pi-img-wrapper">
-                                    <img src="/products/{{ $product->image }}" class="img-responsive"
+                                    <img src="/products/{{ $result->image }}" class="img-responsive"
                                         alt="Berry Lace Dress">
                                     <div>
-                                        <a href="/products/{{ $product->image }}"
+                                        <a href="/products/{{ $result->image }}"
                                             class="btn btn-default fancybox-button">Zoom</a>
                                         <a href="#product-pop-up" class="btn btn-default fancybox-fast-view">View</a>
                                     </div>
                                 </div>
-                                <h3><a href="/product/{{ $product->id }}">{{ $product->name }}</a></h3>
-                                <div class="pi-price">${{ $product->price }}</div>
-                                <form action="{{ url('cart', $product->id) }}" method="POST">
+                                <h3><a href="/product/{{ $result->id }}">{{ $result->name }}</a></h3>
+                                <div class="pi-price">${{ $result->price }}</div>
+                                <form action="{{ url('cart', $result->id) }}" method="POST">
 
                                     @csrf
 
                                     <input type="number" value="1" min="1" name="quantity"
                                         class="form-control">
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="product_id" value="{{ $result->id }}">
 
                                     <input class="btn btn-primary" type="submit" value="Add Cart">
                                 </form>
@@ -350,14 +350,14 @@
                     <div>
                     </div>
                 </div>
-                @foreach ($products as $product)
+                @foreach ($results as $result)
                     <div id="product-pop-up" style="display: none; width: 700px;">
                         <div class="productpage product-pop-up">
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-3">
                                     <div class="product-main-image">
 
-                                        <img src="/products/{{ $product->image }}" alt="Cool green dress with red bell"
+                                        <img src="/products/{{ $result->image }}" alt="Cool green dress with red bell"
                                             class="img-responsive">
                                     </div>
                                     <div class="product-other-images">
@@ -370,10 +370,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-9">
-                                    <h2>{{ $product->name }}</h2>
+                                    <h2>{{ $result->name }}</h2>
                                     <div class="price-availability-block clearfix">
                                         <div class="price">
-                                            <strong><span>$</span>{{ $product->price }}</strong>
+                                            <strong><span>$</span>{{ $result->price }}</strong>
                                             <em>$<span>62.00</span></em>
                                         </div>
                                         <div class="availability">
@@ -381,7 +381,7 @@
                                         </div>
                                     </div>
                                     <div class="description">
-                                        <p>{{ $product->description }}</p>
+                                        <p>{{ $result->description }}</p>
                                     </div>
                                     <div class="product-page-options">
                                         <div class="pull-left">

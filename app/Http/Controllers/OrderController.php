@@ -109,7 +109,7 @@ class OrderController extends Controller
 
         $results = \App\Models\Product::search($search)->get();
 
-        return $results;
+        return view('users.products.index', compact('results') ); 
     }
 
 }
