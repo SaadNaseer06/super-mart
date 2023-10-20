@@ -11,6 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="/assets/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+        .col-w-100 {
+            column-width: 100px;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -41,9 +46,9 @@
                         <hr class="dropdown-divider" />
                     </li>
                     <li>
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" style="display: flex; justify-content:center">
                             @csrf
-                            <button type="submit">Logout </button>
+                            <button class="btn btn-dark btn-sm" type="submit">Logout </button>
                         </form>
                     </li>
                 </ul>
@@ -97,11 +102,26 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
                             </a> --}}
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseorders" aria-expanded="false" aria-controls="collapseorders">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                            Orders
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseorders" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionorders">
+                                <a class="nav-link" href="/orders">View Orders</a>
+                            </nav>
+                            {{-- <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionorders">
+                                <a class="nav-link" href="/orders/view">View Order products</a>
+                            </nav> --}}
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    <div class="small">Logged in as: {{ ucwords(Auth::guard('web')->user()->name ) }}</div>
+                    {{-- Start Bootstrap --}}
                 </div>
             </nav>
         </div>

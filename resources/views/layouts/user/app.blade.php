@@ -428,9 +428,9 @@
                         <span class="sep"></span>
                         <i class="fa fa-search search-btn"></i>
                         <div class="search-box">
-                            <form action="#">
+                            <form action="/search" method="GET">
                                 <div class="input-group">
-                                    <input type="text" placeholder="Search" class="form-control">
+                                    <input type="text" placeholder="Search" class="form-control" name="search" value="">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" type="submit">Search</button>
                                     </span>
@@ -454,37 +454,11 @@
 
     <div class="main">
         @yield('content')
+        @yield('newarrival')
+        @yield('twoitems')
+        @yield('brands')
     </div>
-    <div class="brands">
-        <div class="container">
-            <div class="owl-carousel owl-carousel6-brands">
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
-                        title="canon"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
-                        title="esprit"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
-                        title="gap"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
-                        title="next"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
-                        title="puma"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
-                        title="zara"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
-                        title="canon"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
-                        title="esprit"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
-                        title="gap"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"
-                        title="next"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/puma.jpg" alt="puma"
-                        title="puma"></a>
-                <a href="shop-product-list.html"><img src="/assets/pages/img/brands/zara.jpg" alt="zara"
-                        title="zara"></a>
-            </div>
-        </div>
-    </div>
+    
     <!-- END BRANDS -->
 
     <!-- BEGIN STEPS -->

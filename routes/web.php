@@ -6,6 +6,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Order;
+use App\Models\Post;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -42,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/orderplaced', [CartController::class, 'order']);
     Route::get('/category/{id}', [CartController::class, 'categoryproducts']);
     Route::get('/product/{id}', [ProductController::class, 'products']);
+    Route::post('/product/{id}',[ProductController::class, 'productspost'])->name('productspost');
     // Route::get('single-charge', [CartController::class, 'singlecharge'])->name('single.charge');
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/charge', function () {
@@ -65,5 +68,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/category/store', [CartController::class, 'store'])->name('category.post');
     Route::get('/categories', [CartController::class, 'category']);
     Route::get('/category/{id}/delete', [CartController::class, 'categorydestroy']);
+    Route::get('/orders',[OrderController::class, 'orders']);
+    Route::get('/orders/view/{order}',[OrderController::class, 'vieworders']);
+    Route::post('/orders/view/{order}',[OrderController::class, 'status'])->name('status');
+    Route::get('/print-invoice/{order}', [OrderController::class, 'printinvoice' ])->name('invoice');
+    Route::get('/search', [OrderController::class, 'search']);
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

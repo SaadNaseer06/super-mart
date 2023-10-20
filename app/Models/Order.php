@@ -19,16 +19,28 @@ class Order extends Model
         'fax',
         'company',
         'address',
-        'postalcode', 
+        'postalcode',
         'appartment',
         'city',
         'country',
         'state',
-        'price'
-        // 'quantity' 
+        'price',
+        'quantity',
+        'status',
     ];
     public function products()
     {
         return $this->hasMany(OrderProduct::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id', 'id');
+    }
+
 }

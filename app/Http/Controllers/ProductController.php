@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Categories;
 use App\Models\Order;
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Controllers\CartController;
@@ -45,7 +46,7 @@ class ProductController extends Controller
         $product->image = $imageName;
         $product->save();
 
-        return back()->withsuccess('Product Created!!!');  
+        return redirect('/admin')->withsuccess('Product Created!!!');  
     }
 
     public function edit($id)
@@ -123,5 +124,25 @@ class ProductController extends Controller
         return view('users.products.view',compact('products'));
     }
 
-    
+    public function productspost(Request $request, $id)
+    {
+        dd($request->all());
+        if (Auth::id()) {
+            $user = auth()->user();
+            $product = Product::find($id);
+            $cart = new Cart;
+            $cart->product_id =$product->id;
+            $cart->user_id    =$user->id;
+            $cart->image      =$product->image;
+            $cart->name       =$product->name;
+            $cart->price      =$product->price;
+            $cart->description=$product->description;
+            $cart->quantity   =$request->quantity;
+            dd($cart);
+            $cart->save();
+            return redirect()->back();
+        } else {
+            return redirect('/login');
+        }
+    }
 }

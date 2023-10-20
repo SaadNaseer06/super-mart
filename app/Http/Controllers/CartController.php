@@ -27,14 +27,14 @@ class CartController extends Controller
             $user = auth()->user();
             $product = Product::find($id);
             $cart = new Cart;
-            $cart->product_id =$product->id;
-            $cart->user_id    =$user->id;
-            $cart->image      =$product->image;
-            $cart->name       =$product->name;
-            $cart->price      =$product->price;
-            $cart->description=$product->description;
-            $cart->quantity   =$request->quantity;
-
+            $cart->product_id = $product->id;
+            $cart->user_id    = $user->id;
+            $cart->image      = $product->image;
+            $cart->name       = $product->name;
+            $cart->price      = $product->price;
+            $cart->description= $product->description;
+            $cart->quantity   = $request->quantity;
+            
             $cart->save();
             return redirect()->back();
         } else {

@@ -378,12 +378,10 @@
             <!-- BEGIN SIDEBAR & CONTENT -->
             <div class="row margin-bottom-40">
                 <!-- BEGIN CONTENT -->
-                <div class="col-md-12 col-sm-12">
+                <div class="col-md-8 col-sm-12">
                     <h1>Checkout</h1>
                     <!-- BEGIN CHECKOUT PAGE -->
                     <div class="panel-group checkout-page accordion scrollable" id="checkout-page">
-
-
                         <div id="shipping-address" class="panel panel-default">
                             <div class="panel-heading">
                                 <h2 class="panel-title">
@@ -393,7 +391,7 @@
                                     </a>
                                 </h2>
                             </div>
-                            <div id="shipping-address-content" class="panel-collapse collapse">
+                            <div id="shipping-address-content" class="panel-collapse collapse in">
                                 <div class="panel-body row">
                                     <form action="{{ route('charge.post') }}" method="post" id="payment-form">
                                         @csrf
@@ -433,12 +431,10 @@
                                                 <input type="number" id="postalcode" name="postalcode"
                                                     class="form-control">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="city">City <span class="require">*</span></label>
                                                 <input type="text" id="city" name="city" class="form-control">
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="country">Country <span class="require">*</span></label>
                                                 <input type="text" id="country" name="country" class="form-control">
@@ -449,111 +445,124 @@
                                             </div>
                                             <h1>Price: {{ $total }}</h1>
                                             <input type="hidden" value="{{ $total }}" name="price">
-                                            
+
                                         </div>
-                                        <div class="col-md-12">
+                                        {{-- <div class="col-md-12">
                                             <button class="btn btn-primary  pull-right" type="submit"
                                                 id="button-shipping-address" data-toggle="collapse"
                                                 data-parent="#checkout-page"
                                                 data-target="#shipping-method-content">Continue</button>
-                                        </div>
+                                        </div> --}}
                                 </div>
                             </div>
                         </div>
 
 
                         <!-- BEGIN CONFIRM -->
-                        <div id="confirm" class="panel panel-default">
+                        <!-- END CONFIRM -->
+                    </div>
+                    <!-- END CHECKOUT PAGE -->
+                </div>
+                <div class="col-md-4" style="margin-top: 28px">
+                    <div class="panel-group checkout-page accordion scrollable" id="checkout-page">
+
+
+                        <div id="shipping-address" class="panel panel-default">
                             <div class="panel-heading">
-                                <h2 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#checkout-page" href="#confirm-content"
-                                        class="accordion-toggle">
-                                        Step 6: Confirm Order
-                                    </a>
-                                </h2>
-                            </div>
-                            <div id="confirm-content" class="panel-collapse collapse">
-                                <div class="panel-body row">
-                                    <div class="col-md-12 clearfix">
-                                        <div class="table-wrapper-responsive">
-                                            <table>
-                                                <tr>
-                                                    <th class="checkout-image">Image</th>
-                                                    <th class="checkout-description">Description</th>
-                                                    <th class="checkout-model">Model</th>
-                                                    <th class="checkout-quantity">Quantity</th>
-                                                    <th class="checkout-price">Price</th>
-                                                    <th class="checkout-total">Total</th>
-                                                </tr>
-                                                @foreach ($products as $product)
-                                                    <tr>
-                                                        <td class="checkout-image">
-                                                            <a href="javascript:;"><img
-                                                                    src="/products/{{ $product->image }}"
-                                                                    alt="Berry Lace Dress"></a>
-                                                        </td>
-                                                        <td class="checkout-description">
-                                                            <h3><a href="javascript:;">{{ $product->name }}</a>
-                                                            </h3>
-
-                                                        </td>
-                                                        <td class="checkout-model">RES.193</td>
-                                                        <td class="checkout-quantity">{{ $product->quantity }}</td>
-                                                        <td class="checkout-price">
-                                                            <strong><span>$</span>{{ $product->price }}</strong>
-                                                        </td>
-                                                        <td class="checkout-total">
-                                                            <strong><span>$</span>{{ $total }}</strong>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-
-                                            </table>
-                                        </div>
-                                        <div class="checkout-total-block">
-                                            <ul>
-                                                <li class="checkout-total-price">
-                                                    <em>Total</em>
-                                                    <strong class="price"><span>$</span>{{ $total }}</strong>
-                                                    <input type="hidden" value="{{ $total }}">
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        {{-- <button class="btn btn-primary pull-right" type="submit"
-                                            id="button-confirm">Proceed to pay</button>
-                                        <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a> --}}
+                                <div id="confirm" class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#checkout-page"
+                                                href="#confirm-content" class="accordion-toggle">
+                                                Step 6: Confirm Order
+                                            </a>
+                                        </h2>
                                     </div>
-                                    <div class="py-12">
-                                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                                            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                                                <div class="p-6">
-                                                    {{-- <input type="hidden" name="firstname"
-                                                    value="{{ $order[0]->firstname }}"> --}}
-                                                    <div class="w-1/2 form-row">
-                                                        <label for="cardholder-name">Cardholder's Name</label>
-                                                        <div>
-                                                            <input type="text" id="cardholder-name"
-                                                                class="px-2 py-2 border">
+                                    <div id="confirm-content" class="panel-collapse collapse in">
+                                        <div class="panel-body row">
+                                            <div class="col-md-12 clearfix">
+                                                <div class="table-wrapper-responsive">
+                                                    <table>
+                                                        <tr>
+                                                            <th class="checkout-image">Image</th>
+                                                            <th class="checkout-description">Name</th>
+                                                            {{-- <th class="checkout-model">Model</th> --}}
+                                                            <th class="checkout-quantity">Quantity</th>
+                                                            <th class="checkout-price">Price</th>
+                                                            <th class="checkout-total">Total</th>
+                                                        </tr>
+                                                        @foreach ($products as $product)
+                                                            <tr>
+                                                                <td class="checkout-image">
+                                                                    <a href="javascript:;"><img
+                                                                            src="/products/{{ $product->image }}"
+                                                                            alt="Berry Lace Dress" style="width:40px;"></a>
+                                                                </td>
+                                                                <td class="checkout-description">
+                                                                    <h3><a href="javascript:;">{{ $product->name }}</a>
+                                                                    </h3>
+
+                                                                </td>
+                                                                {{-- <td class="checkout-model">RES.193</td> --}}
+                                                                <td class="checkout-quantity">{{ $product->quantity }}</td>
+                                                                <td class="checkout-price">
+                                                                    <strong><span>$</span>{{ $product->price }}</strong>
+                                                                </td>
+                                                                <td class="checkout-total">
+                                                                    <strong><span>$</span>{{ $total }}</strong>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+
+                                                    </table>
+                                                </div>
+                                                <div class="checkout-total-block">
+                                                    <ul>
+                                                        <li class="checkout-total-price">
+                                                            <em>Total</em>
+                                                            <strong
+                                                                class="price"><span>$</span>{{ $total }}</strong>
+                                                            <input type="hidden" value="{{ $total }}">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                {{-- <button class="btn btn-primary pull-right" type="submit"
+                                        id="button-confirm">Proceed to pay</button>
+                                    <a href="/" class="btn btn-default pull-right margin-right-20">Cancel</a> --}}
+                                            </div>
+                                            <div class="py-12">
+                                                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                                                        <div class="p-6">
+                                                            {{-- <input type="hidden" name="firstname"
+                                                value="{{ $order[0]->firstname }}"> --}}
+                                                            <div class="w-1/2 form-row">
+                                                                <label for="cardholder-name">Cardholder's Name</label>
+                                                                <div>
+                                                                    <input type="text" id="cardholder-name"
+                                                                        class="px-2 py-2 border">
+                                                                </div>
+
+                                                                <label for="card-element">
+                                                                    Credit or debit card
+                                                                </label>
+                                                                <div id="card-element">
+
+                                                                </div>
+
+
+                                                                <div id="card-errors" role="alert"></div>
+                                                            </div>
+
+                                                            <button class="mt-4 btn btn-primary pull-right">
+                                                                Proceed to Pay
+                                                            </button>
+                                                            <a href="/"
+                                                                class="btn btn-default pull-right margin-right-20">Cancel</a>
+                                                            </form>
                                                         </div>
-
-                                                        <label for="card-element">
-                                                            Credit or debit card
-                                                        </label>
-                                                        <div id="card-element">
-
-                                                        </div>
-
-
-                                                        <div id="card-errors" role="alert"></div>
                                                     </div>
-
-                                                    <button class="mt-4 btn btn-primary pull-right">
-                                                        Proceed to Pay
-                                                    </button>
-                                                    <a href="/"
-                                                        class="btn btn-default pull-right margin-right-20">Cancel</a>
-                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -561,13 +570,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- END CONFIRM -->
                     </div>
-                    <!-- END CHECKOUT PAGE -->
                 </div>
-                <!-- END CONTENT -->
             </div>
-            <!-- END SIDEBAR & CONTENT -->
         </div>
     </div>
 
