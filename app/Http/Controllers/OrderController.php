@@ -62,6 +62,7 @@ class OrderController extends Controller
 
         return redirect('/');
     }
+    
     public function orders()
     {
         $orders = Order::with(['user', 'products' => function ($query) {

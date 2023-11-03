@@ -102,15 +102,10 @@ class ProductController extends Controller
             $cart[$id]['qty'] = $request->quantity;
 
         } else {
-
             $cart[$id] = [
-
                 "name" => $product->name,
-
                 "qty" => 1,
-
                 "price" => $product->price,
-
                 "image" => $product->image
 
             ];

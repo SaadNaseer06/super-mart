@@ -20,7 +20,8 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
     <meta property="og:url" content="-CUSTOMER VALUE-">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="shortcut icon" href="favicon.ico">
 
     <!-- Fonts START -->
@@ -645,6 +646,8 @@
             Layout.initTwitter();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     @yield('scripts')
 
 </body>

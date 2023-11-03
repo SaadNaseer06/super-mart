@@ -256,15 +256,17 @@
             <!-- BEGIN SIDEBAR -->
             <div class="sidebar col-md-3 col-sm-4">
                 <ul class="list-group margin-bottom-25 sidebar-menu">
+                    <li class="list-group-item clearfix"><a href="/"><i class="fa fa-angle-right"></i>
+                            Categories</a></li>
                     @foreach ($categories as $category)
-                        <li class="list-group-item clearfix"><a href="/category/{{ $category->id }}"><i class="fa fa-angle-right"></i>
-                            {{ $category->name }}</a></li>
+                        <li class="list-group-item clearfix"><a href="/category/{{ $category->id }}"><i
+                                    class="fa fa-angle-right"></i>
+                                {{ $category->name }}</a></li>
                     @endforeach
                     {{-- <li class="list-group-item clearfix dropdown">
                         <a href="shop-product-list.html">
                             <i class="fa fa-angle-right"></i>
-                            Mens
-
+                            Categories 
                         </a>
                         <ul class="dropdown-menu">
                             <li class="list-group-item dropdown clearfix">
@@ -334,18 +336,52 @@
                                             <a href="#product-pop-up" class="btn btn-default fancybox-fast-view">View</a>
                                         </div>
                                     </div>
-                                    <h3><a href="/product/{{ $product->id }}">{{ $product->name }}</a></h3>
+                                    <h3><a id="" href="/product/{{ $product->id }}">{{ $product->name }}</a></h3>
                                     <div class="pi-price">${{ $product->price }}</div>
-                                    <form action="{{ url('cart', $product->id) }}" method="POST">
 
+                                    {{-- Form --}}
+                                    <form id="cart_form_{{ $product->id }}">
                                         @csrf
 
                                         <input type="number" value="1" min="1" name="quantity"
                                             class="form-control">
+
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-                                        <input class="btn btn-primary" type="submit" value="Add Cart">
+                                        <input class="btn btn-primary" type="submit" value="Add To Cart">
                                     </form>
+
+                                    <script>
+                                        $(document).ready(function() {
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
+                                                }
+                                            })
+
+                                            $('#cart_form_{{ $product->id }}').submit(function(e) {
+                                                e.preventDefault()
+                                                var data = $('#cart_form_{{ $product->id }}').serialize();
+
+                                                $.ajax({
+                                                    url: '/add-to-cart',
+                                                    type: 'POST',
+                                                    data: data,
+                                                    success: function(response) {
+                                                        Swal.fire(
+                                                            'Good job!',
+                                                            'You clicked the button!',
+                                                            'success'
+                                                        )
+                                                        console.log(response)
+                                                    }
+                                                })
+                                            })
+
+                                        })
+                                    </script>
+                                    {{-- End form --}}
+
                                     <div class="sticker sticker-new"></div>
                                 </div>
                             </div>

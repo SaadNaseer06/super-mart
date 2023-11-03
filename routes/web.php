@@ -36,7 +36,12 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [ProductController::class, 'viewproducts'])->name('viewproducts');
-    Route::get('/add-to-cart/{id}', [ProductController::class, 'addtocart'])->name('addtocart');
+
+    // Add Product Into Cart...
+    Route::post('/add-to-cart', [CartController::class, 'addtocart'])->name('cart.add');
+    // Remove Product Into Cart
+    Route::post('/delete/cart/{id}', [CartController::class, 'deletecart']);
+
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
     Route::post('/cart/{id}', [CartController::class, 'cartPost']);
     Route::post('/delete/{id}', [CartController::class, 'destroy']);
@@ -45,7 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/category/{id}', [CartController::class, 'categoryproducts']);
     Route::get('/product/{id}', [ProductController::class, 'products']);
     Route::post('/product/{id}',[ProductController::class, 'productspost'])->name('productspost');
-    // Route::get('single-charge', [CartController::class, 'singlecharge'])->name('single.charge');
+    
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/charge', function () {
         return view('charge');

@@ -27,7 +27,7 @@
                                         </td>
                                         <td class="goods-page-description">
                                             <h3><a href="javascript:;">{{ $cart->name }}</a></h3>
-                                            
+
                                         </td>
                                         <td class="goods-page-ref-no">
                                             javc2133
@@ -46,47 +46,75 @@
                                         <td class="del-goods-col">
                                             {{-- <a class="del-goods" href="javascript:;">&nbsp;</a> --}}
                                             <div class="">
-                                                <form action="/delete/13" method="POST">
-
-                                                    <input type="hidden" name="_token"
-                                                        value="ZidtTWLBchSuXKneUxK6saRyaeXY0nzBCAI6zvtI">
-
+                                                <form id="delete_cart_{{ $cart->id }}">
                                                     <input type="hidden" name="product_id" value="&nbsp;">
 
-                                                    <input class="del-goods" type="submit" value="&nbsp;">
+                                                    <input id="show_alert" class="del-goods" type="submit" value="&nbsp;">
 
                                                 </form>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        $.ajaxSetup({
+                                                            headers: {
+                                                                'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
+                                                            }
+                                                        })
+                                                        // $('#show_alert').click(function() {
+                                                        //     alert("Form Submitted");
+                                                        // })
+
+                                                        $('#delete_cart_{{ $cart->id }}').submit(function(e) {
+                                                            e.preventDefault()
+                                                            var data = $('#cart_form_{{ $cart->id }}').serialize();
+                                                            var id = {{ $cart->id }};
+
+                                                            $.ajax({
+                                                                url: '/delete/cart/' + id,
+                                                                type: 'POST',
+                                                                data: data,
+                                                                // success: function(response) {
+                                                                //     Swal.fire(
+                                                                //         'Good job!',
+                                                                //         response.message,
+                                                                //         'success'
+                                                                //     )
+                                                                //     console.log(response)
+                                                                // }
+                                                            })
+                                                        })
+                                                    })
+                                                </script>
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
                                 {{-- <tr>
-            <td class="goods-page-image">
-              <a href="javascript:;"><img src="assets/pages/img/products/model4.jpg" alt="Berry Lace Dress"></a>
-            </td>
-            <td class="goods-page-description">
-              <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
-              <p><strong>Item 1</strong> - Color: Green; Size: S</p>
-              <em>More info is here</em>
-            </td>
-            <td class="goods-page-ref-no">
-              javc2133
-            </td>
-            <td class="goods-page-quantity">
-              <div class="product-quantity">
-                  <input id="product-quantity2" type="text" value="1" readonly class="form-control input-sm">
-              </div>
-            </td>
-            <td class="goods-page-price">
-              <strong><span>$</span>47.00</strong>
-            </td>
-            <td class="goods-page-total">
-              <strong><span>$</span>47.00</strong>
-            </td>
-            <td class="del-goods-col">
-              <a class="del-goods" href="javascript:;">&nbsp;</a>
-            </td>
-          </tr> --}}
+                                <td class="goods-page-image">
+                                <a href="javascript:;"><img src="assets/pages/img/products/model4.jpg" alt="Berry Lace Dress"></a>
+                                </td>
+                                <td class="goods-page-description">
+                                <h3><a href="javascript:;">Cool green dress with red bell</a></h3>
+                                <p><strong>Item 1</strong> - Color: Green; Size: S</p>
+                                <em>More info is here</em>
+                                </td>
+                                <td class="goods-page-ref-no">
+                                javc2133
+                                </td>
+                                <td class="goods-page-quantity">
+                                <div class="product-quantity">
+                                    <input id="product-quantity2" type="text" value="1" readonly class="form-control input-sm">
+                                </div>
+                                </td>
+                                <td class="goods-page-price">
+                                <strong><span>$</span>47.00</strong>
+                                </td>
+                                <td class="goods-page-total">
+                                <strong><span>$</span>47.00</strong>
+                                </td>
+                                <td class="del-goods-col">
+                                <a class="del-goods" href="javascript:;">&nbsp;</a>
+                                </td>
+                                </tr> --}}
                             </table>
                         </div>
 
