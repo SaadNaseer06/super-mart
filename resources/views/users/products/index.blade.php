@@ -340,16 +340,37 @@
                                     <div class="pi-price">${{ $product->price }}</div>
 
                                     {{-- Form --}}
+                                    {{-- <form id="cart_form_{{ $product->id }}">
+                                        @csrf
+
+                                        <input type="number" value="1" min="1" name="quantity"
+                                            class="form-control">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="cart_quantity" id="cart_quantity"
+                                            value="{{ $carts->pluck('quantity')->sum() }}">
+                                        <input type="hidden" name="cart_total" id="cart_total"
+                                            value="{{ $total }}">
+
+                                        <input class="btn btn-primary" type="submit" value="Add To Cart">
+                                    </form> --}}
+                                    <div class="top-cart-info">
+                                        <a href="javascript:void(0);" id="cart_quantity"
+                                            class="top-cart-info-count"></a>
+                                        <a href="javascript:void(0);" id="cart_total"
+                                            class="top-cart-info-value"></a>
+                                    </div>
+
                                     <form id="cart_form_{{ $product->id }}">
                                         @csrf
 
                                         <input type="number" value="1" min="1" name="quantity"
                                             class="form-control">
-
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                         <input class="btn btn-primary" type="submit" value="Add To Cart">
                                     </form>
+
+
 
                                     <script>
                                         $(document).ready(function() {
@@ -368,16 +389,25 @@
                                                     type: 'POST',
                                                     data: data,
                                                     success: function(response) {
-                                                        Swal.fire(
-                                                            'Good job!',
-                                                            'You clicked the button!',
-                                                            'success'
-                                                        )
                                                         console.log(response)
+
+                                                        var quantity = document.getElementById('cart_quantity');
+                                                        var total =  document.getElementById('cart_total');
+
+                                                        console.log(quantity.innerHTML = response.data.total_items)
+                                                        console.log(total.innerHTML = response.data.total_price)
+                                                        // // Get updated quantity and total from the page content
+                                                        // var updatedQuantity = $("#cart_quantity").text().split(' ')[
+                                                        // 0]; // Assuming "n items" format
+                                                        // var updatedTotal = $("#cart_total").text().substring(
+                                                        // 1); // Remove dollar sign
+
+                                                        // // Log the updated values to the console
+                                                        // console.log("Updated Quantity:", updatedQuantity);
+                                                        // console.log("Updated Total:", updatedTotal);
                                                     }
                                                 })
                                             })
-
                                         })
                                     </script>
                                     {{-- End form --}}
@@ -602,8 +632,8 @@
                         <div class="owl-carousel owl-carousel6-brands">
                             <a href="shop-product-list.html"><img src="/assets/pages/img/brands/canon.jpg" alt="canon"
                                     title="canon"></a>
-                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg" alt="esprit"
-                                    title="esprit"></a>
+                            <a href="shop-product-list.html"><img src="/assets/pages/img/brands/esprit.jpg"
+                                    alt="esprit" title="esprit"></a>
                             <a href="shop-product-list.html"><img src="/assets/pages/img/brands/gap.jpg" alt="gap"
                                     title="gap"></a>
                             <a href="shop-product-list.html"><img src="/assets/pages/img/brands/next.jpg" alt="next"

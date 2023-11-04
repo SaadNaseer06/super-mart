@@ -25,12 +25,20 @@ class CartController extends Controller
             'price' => $product->price,
             'description' => $product->price,
         ]);
-
+        
         if (isset($result)) {
+            $totalitem = Cart::where('user_id' , auth()->user()->id)->get();
+            // dd();
+            
+
 
             return response()->json([
                 'status' => 200,
                 'message' => 'Product Added To Cart Successfully.',
+                'data'=> [
+                    'total_items' => $totalitem->count(),
+                    'total_price' => $totalitem->pluck('price')->sum()
+                ]
             ], 200);
 
         } else {

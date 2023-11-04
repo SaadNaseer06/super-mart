@@ -143,10 +143,12 @@
 
 
                 <div class="top-cart-info">
-                    <a href="javascript:void(0);" class="top-cart-info-count">{{ $carts->pluck('quantity')->sum() }}
-                        items</a>
-                    <a href="javascript:void(0);" class="top-cart-info-value">${{ $total }}</a>
+                    <a href="javascript:void(0);" id="cart_quantity"
+                        class="top-cart-info-count"></a>
+                    <a href="javascript:void(0);" id="cart_total"
+                        class="top-cart-info-value"></a>
                 </div>
+
 
 
                 <i class="fa fa-shopping-cart"></i>
@@ -431,7 +433,8 @@
                         <div class="search-box">
                             <form action="/search" method="GET">
                                 <div class="input-group">
-                                    <input type="text" placeholder="Search" class="form-control" name="search" value="">
+                                    <input type="text" placeholder="Search" class="form-control" name="search"
+                                        value="">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" type="submit">Search</button>
                                     </span>
@@ -459,7 +462,7 @@
         @yield('twoitems')
         @yield('brands')
     </div>
-    
+
     <!-- END BRANDS -->
 
     <!-- BEGIN STEPS -->
@@ -619,7 +622,7 @@
     <!-- END FOOTER -->
 
     <!-- BEGIN fast view of a product -->
-   
+
 
 
 
@@ -647,7 +650,7 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     @yield('scripts')
 
 </body>
